@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.driver.RegisterDriver"
+    android:background="@color/colorPrimary">
+    <include layout="@layout/toolbar" ></include>
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- <TextView
+             style="@style/headerTextPrimary"
+             android:layout_marginTop="@dimen/loginViewsMargin"
+             android:text="@string/register"
+             />-->
+
+
+        -
+
+
+        <EditText
+            android:id="@+id/edtPlaca"
+            style="@style/modifiedEditText"
+            android:layout_marginTop="30dp"
+            android:hint="@string/rdplaca"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <EditText
+            android:layout_marginTop="30dp"
+            style="@style/modifiedEditText"
+            android:hint="@string/rdmarca"
+            android:inputType="text"
+            android:maxLines="1"
+            android:id="@+id/edtMarca"/>
+
+
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdmodelo"
+            android:inputType="text"
+            android:maxLines="1"
+            android:id="@+id/edtModelo"/>
+
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdano"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:id="@+id/edtAnio"/>
+
+
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdfechaNa"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:id="@+id/edtContra"/>
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdcategoriaD"
+            android:inputType="number"
+            android:maxLines="1"
+            android:id="@+id/edtCategoriaD"/>
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdvigeniciaDriver"
+            android:inputType="number"
+            android:maxLines="1"
+            android:id="@+id/edtVigenD"/>
+
+
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdvigenciaTarjetap"
+            android:inputType="number"
+            android:maxLines="1"
+            android:id="@+id/edtVigenTp"/>
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdvigenciaSoat"
+            android:inputType="number"
+            android:maxLines="1"
+            android:id="@+id/edtVigenSoat"/>
+
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdantecedentes"
+            android:inputType="number"
+            android:maxLines="1"
+            android:id="@+id/edtAntece"/>
+
+        <EditText
+            style="@style/modifiedEditText"
+            android:hint="@string/rdvigenciaTecno"
+            android:inputType="number"
+            android:maxLines="1"
+            android:id="@+id/edtVigenTecno"/>
+
+
+
+
+        <Button
+            style="@style/loginButton"
+            android:layout_gravity="center"
+            android:text="Registrar"
+            android:id="@+id/btnReg"/>
+
+        <TextView
+            style="@style/parent"
+            android:id="@+id/txtlogin"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="@string/signup_login_hint"
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

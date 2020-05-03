@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "475174044324",
+    "firebase_url": "https://laugerjo-2b764.firebaseio.com",
+    "project_id": "laugerjo-2b764",
+    "storage_bucket": "laugerjo-2b764.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475174044324:android:808d4e0533828a9ff61c31",
+        "android_client_info": {
+          "package_name": "com.example.laugerjo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475174044324-st7jgvjkec3assiq0u18cu9d3tsgbnsl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.laugerjo",
+            "certificate_hash": "9788786c6ea4c8afcf5ff4620c4181a70afc1929"
+          }
+        },
+        {
+          "client_id": "475174044324-k3mvlk6fj4e9gnho49mht7fcgbh3dr4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnFc9naJImKiG5PG3uzkH8CF1-I73dXEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475174044324-k3mvlk6fj4e9gnho49mht7fcgbh3dr4h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

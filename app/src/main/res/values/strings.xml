@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">LAUGERJO</string>
+
+    <string name="register">Registro de Usuarios</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Contraseña</string>
+    <string name="login_number_hint">Número de Celular</string>
+    <string name="signup_login_hint">¿Ya tienes una cuenta? Ingresar</string>
+    <string name="login_signup_hint">¿Quieres registrarte? Registrarse</string>
+    <string name="login_identi_hint">Número de identidad</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="Cerrar_ses">Cerrar Sesión</string>
+    <string name="log_in">Iniciar Sesión" </string>
+    <string name="Forgot">Recuperación De Contraseña" </string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Configuración</string>
+    <string name="text">Se enviara al correo que escriba a continuación , la recuperación de la contraseña.</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_CerrarSes">Cerrar Sesión</string>
+    <string name="rdplaca">Placa del automovil</string>
+    <string name="rdmarca">Marca del automovil</string>
+    <string name="rdmodelo">Modelo del automovil</string>
+    <string name="rdano">Año del automovil</string>
+    <string name="rdpuertas">Cantidad de puertas del vehiculo</string>
+    <string name="rdfechaNa">Fecha de nacimiento del conductor</string>
+    <string name="rdcategoriaD">Categoria de la licencia</string>
+    <string name="rdvigeniciaDriver">Fecha de vencimiento de licencia de conducción</string>
+    <string name="rdvigenciaTarjetap">Fecha de vencimiento de tarjeta de propiedad</string>
+    <string name="rdvigenciaSoat">Fecha de vencimiento del Soat</string>
+    <string name="rdantecedentes">Antecedentes judiciales</string>
+    <string name="rdvigenciaTecno">Fecha de vencimiento de la revisión Tecnomecanica</string>
+    <string name="home_second">Home Second</string>
+
+
+</resources>
