@@ -7,6 +7,7 @@
     tools:context=".activities.driver.RegisterDriver"
     android:background="@color/colorPrimary">
     <include layout="@layout/toolbar" ></include>
+
     <LinearLayout
         style="@style/linearParent"
         android:layout_width="match_parent"
@@ -15,8 +16,10 @@
         android:padding="@dimen/loginViewsMargin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <!-- <TextView
              style="@style/headerTextPrimary"
@@ -37,88 +40,112 @@
             android:maxLines="1" />
 
         <EditText
-            android:layout_marginTop="30dp"
+            android:id="@+id/edtMarca"
             style="@style/modifiedEditText"
             android:hint="@string/rdmarca"
             android:inputType="text"
-            android:maxLines="1"
-            android:id="@+id/edtMarca"/>
+            android:maxLines="1" />
 
 
         <EditText
+            android:id="@+id/edtModelo"
             style="@style/modifiedEditText"
             android:hint="@string/rdmodelo"
             android:inputType="text"
-            android:maxLines="1"
-            android:id="@+id/edtModelo"/>
+            android:maxLines="1" />
 
         <EditText
+            android:id="@+id/edtNumerop"
+            style="@style/modifiedEditText"
+            android:hint="@string/rdpuertas"
+            android:inputType="number"
+            android:maxLines="1" />
+
+        <EditText
+            android:id="@+id/edtAnio"
             style="@style/modifiedEditText"
             android:hint="@string/rdano"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:id="@+id/edtAnio"/>
+            android:inputType="number"
+            android:maxLines="1" />
 
 
         <EditText
+            android:id="@+id/edtConduNaci"
             style="@style/modifiedEditText"
             android:hint="@string/rdfechaNa"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:id="@+id/edtContra"/>
+            android:inputType="date"
+            android:maxLines="1" />
+
         <EditText
+            android:id="@+id/edtCategoriaD"
             style="@style/modifiedEditText"
             android:hint="@string/rdcategoriaD"
-            android:inputType="number"
-            android:maxLines="1"
-            android:id="@+id/edtCategoriaD"/>
+            android:inputType="text"
+            android:maxLines="1" />
+
         <EditText
+            android:id="@+id/edtVigenD"
             style="@style/modifiedEditText"
             android:hint="@string/rdvigeniciaDriver"
-            android:inputType="number"
-            android:maxLines="1"
-            android:id="@+id/edtVigenD"/>
+            android:inputType="date"
+            android:maxLines="1" />
 
 
         <EditText
+            android:id="@+id/edtVigenTp"
             style="@style/modifiedEditText"
             android:hint="@string/rdvigenciaTarjetap"
-            android:inputType="number"
-            android:maxLines="1"
-            android:id="@+id/edtVigenTp"/>
+            android:inputType="date"
+            android:maxLines="1" />
+
         <EditText
+            android:id="@+id/edtVigenSoat"
             style="@style/modifiedEditText"
             android:hint="@string/rdvigenciaSoat"
-            android:inputType="number"
-            android:maxLines="1"
-            android:id="@+id/edtVigenSoat"/>
+            android:inputType="date"
+            android:maxLines="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/viewParent"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/newsMoreTextSize"
+            android:text="@string/rdantecedentes"></TextView>
+       <RadioGroup
+           android:layout_width="wrap_content"
+           android:orientation="horizontal"
+           android:layout_gravity="center"
+           android:layout_height="wrap_content">
+           <RadioButton
+            android:layout_width="match_parent"
+               android:text="@string/si"
+               android:id="@+id/rbSi"
+            android:layout_height="wrap_content"></RadioButton>
+           <RadioButton
+               android:text="@string/no"
+               android:id="@+id/rbNo"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"></RadioButton>
+       </RadioGroup>
+
 
         <EditText
-            style="@style/modifiedEditText"
-            android:hint="@string/rdantecedentes"
-            android:inputType="number"
-            android:maxLines="1"
-            android:id="@+id/edtAntece"/>
-
-        <EditText
+            android:id="@+id/edtVigenTecno"
             style="@style/modifiedEditText"
             android:hint="@string/rdvigenciaTecno"
-            android:inputType="number"
-            android:maxLines="1"
-            android:id="@+id/edtVigenTecno"/>
-
-
-
+            android:inputType="date"
+            android:maxLines="1" />
 
         <Button
+            android:id="@+id/btnReg"
             style="@style/loginButton"
             android:layout_gravity="center"
-            android:text="Registrar"
-            android:id="@+id/btnReg"/>
+            android:text="Registrar" />
 
         <TextView
-            style="@style/parent"
             android:id="@+id/txtlogin"
+            style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:text="@string/signup_login_hint"
             android:textAlignment="center"

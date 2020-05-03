@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +29,26 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RegisterDriver extends AppCompatActivity {
-    private EditText edtPlaca,edtContra,edtNombre,edtApellido,edtNumero,edtIdenti;
+    private EditText edtPlaca;
+    private EditText edtMarca;
+    private EditText edtModelo;
+    private EditText edtNumerop;
+    private EditText edtAnio;
+    private EditText edtConduNaci;
+    private EditText edtCategoriaD;
+    private EditText edtVigenD;
+    private EditText edtVigenTp;
+    private EditText edtVigenSoat;
+
+    private EditText edtVigenTecno;
     private TextView txtlogin;
-    private Button btnReg,btnSig;
+    private RadioButton rbSi,rbNo;
+    private Button btnReg;
     private String name= "";
     private String id= "";
     private String lastname= "";
@@ -39,6 +56,23 @@ public class RegisterDriver extends AppCompatActivity {
     private String password= "";
     private String number="";
     private String identi="";
+    private String placa="";
+    private String marca="";
+    private String modelo="";
+    private int anio;
+    private Date conduNaci;
+    private String categoriaD="";
+    private Date vigenD;
+    private Date vigenTp;
+    private Date vigenSoat;
+    private String antece="";
+    private Date vigenTecno;
+    private int numerop;
+
+
+
+
+
     SharedPreferences pref;
 
     authProviders mauthProviders;
@@ -50,12 +84,20 @@ public class RegisterDriver extends AppCompatActivity {
             setContentView(R.layout.activity_register_driver);
             mauthProviders = new authProviders();
             mDriverProviders = new DriverProvider();
-            edtPlaca = findViewById(R.id.edtPlaca);
-            edtNombre = findViewById(R.id.edtNombre);
-            edtApellido = findViewById(R.id.edtApellido);
-            edtContra = findViewById(R.id.edtContra);
-            edtNumero = findViewById(R.id.edtNumero);
-            edtIdenti = findViewById(R.id.edtIdenti);
+            edtPlaca= findViewById(R.id.edtPlaca);
+            edtMarca =findViewById(R.id.edtMarca);
+            edtModelo =findViewById(R.id.edtModelo);
+            edtNumerop =findViewById(R.id.edtNumerop);
+            edtAnio =findViewById(R.id.edtAnio);
+            edtConduNaci =findViewById(R.id.edtConduNaci);
+            edtCategoriaD =findViewById(R.id.edtCategoriaD);
+            edtVigenD =findViewById(R.id.edtVigenD);
+            edtVigenTp =findViewById(R.id.edtVigenTp);
+            edtVigenSoat =findViewById(R.id.edtVigenSoat);
+
+            rbNo =findViewById(R.id.rbNo);
+            rbSi =findViewById(R.id.rbSi);
+            edtVigenTecno =findViewById(R.id.edtVigenTecno);
             btnReg = findViewById(R.id.btnReg);
             txtlogin = findViewById(R.id.txtlogin);
             txtlogin = findViewById(R.id.txtlogin);
@@ -72,20 +114,41 @@ public class RegisterDriver extends AppCompatActivity {
             btnReg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    name=edtNombre.getText().toString();
-                    lastname=edtApellido.getText().toString();
-                   // email=edtCorreo.getText().toString();
-                    password=edtContra.getText().toString();
-                    number=edtNumero.getText().toString();
-                    identi=edtIdenti.getText().toString();
+                    name=getIntent().getStringExtra("name");
+                    lastname=getIntent().getStringExtra("lastname");
+                    email=getIntent().getStringExtra("email");
+                    password=getIntent().getStringExtra("password");
+                    number=getIntent().getStringExtra("number");
+                    identi=getIntent().getStringExtra("identi");
+                    placa = edtPlaca.getText().toString();
+                    marca =edtMarca.getText().toString();
+                    modelo =edtModelo.getText().toString();
+                    numerop= Integer.parseInt(edtNumerop.getText().toString()) ;
+                    anio=Integer.parseInt(edtAnio.getText().toString());
+                    try {
+                        conduNaci =deStringADate(edtConduNaci.getText().toString());
+                        vigenD = deStringADate(edtVigenD.getText().toString());
+                        vigenTp = deStringADate(edtVigenTp.getText().toString());
+                        vigenSoat = deStringADate(edtVigenSoat.getText().toString());
+                        vigenTecno = deStringADate(edtVigenTecno.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
-                    if(!name.isEmpty() && !lastname.isEmpty() && !email.isEmpty() && !password.isEmpty()&& !number.isEmpty()&& !identi.isEmpty()){
-                        if(password.length() >=6){
-                            registerUser(email,lastname,name,password,number,identi);
-                        }else{
-                            Toast.makeText(RegisterDriver.this, "El password debe tener al menos 6 caracteres.",Toast.LENGTH_SHORT).show();
-                        }
+                    categoriaD =edtCategoriaD.getText().toString();
 
+
+                    if (rbSi.isChecked()==true) {
+                        antece="Si";
+                    } else
+                    if (rbNo.isChecked()==true) {
+                        antece="No";
+                    }
+
+
+                    if(!placa.isEmpty() && !marca.isEmpty() && !modelo.isEmpty()&& numerop>=4 && anio>=2010 &&  !categoriaD.isEmpty()&& !antece.isEmpty()){
+
+                        registerUser(email,lastname,name,password,number,identi,placa,marca,modelo,anio,numerop,conduNaci,categoriaD,vigenD,vigenTp,vigenSoat,antece,vigenTecno);
 
                     }else{
                         Toast.makeText(RegisterDriver.this, "Complete todos los campos.",Toast.LENGTH_SHORT).show();
@@ -93,23 +156,33 @@ public class RegisterDriver extends AppCompatActivity {
                 }
             });
         }
-        private void create(Driver driver){
+    public static Date deStringADate(String fechaString) throws ParseException {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaDate = (Date)formatoFecha.parse(fechaString);
+        return fechaDate;
+
+    }
+
+
+
+    private void create(Driver driver){
             mDriverProviders.create(driver).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        //Driver driver = new Client(id,email,lastname,name,password,number,identi ,placa,marca,modelo,año,puertas,edad,categoriaD,vigenciaDriver,vigenciaTarjetap,vigenciaSoat, antecedentes,vigenciaTecno);
-                       // create(driver);
+                        Driver driver = new Driver(id,email,lastname,name,password,number,identi ,placa,marca,modelo,anio,numerop,conduNaci,categoriaD,vigenD,vigenTp,vigenSoat,antece,vigenTecno);
+                        create(driver);
 
                         Toast.makeText(RegisterDriver.this,"El conductor se creo correctamente",Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(RegisterDriver.this,"El conductor no pudo ser creado",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
-        private void registerUser(final String email, final String lastname,final String name ,final String password,final String number,final String identi) {
+        private void registerUser(final String email, final String lastname,final String name ,final String password,final String number,final String identi,final String placa, final String marca,final String modelo,final int anio,final int numerop,final Date conduNaci,final String categoriaD, final Date vigenD,final Date vigenTp,final Date vigenSoat,final String antece,final Date vigenTecno) {
             mauthProviders.register(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -128,6 +201,8 @@ public class RegisterDriver extends AppCompatActivity {
 
                         if (sUser.equals("driver")) {
 
+                            Driver driver = new Driver(id,email,lastname,name,password,number,identi,placa,marca,modelo,anio,numerop,conduNaci,categoriaD,vigenD ,vigenTp,vigenSoat,antece,vigenTecno);
+                            create(driver);
                         /*DB.child("Users").child("Drivers").child(id).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

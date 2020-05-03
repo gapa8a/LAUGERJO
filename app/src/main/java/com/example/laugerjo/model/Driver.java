@@ -17,7 +17,7 @@ public class Driver extends Users {
     String antecedentes;
     Date vigenciaTecno;
 
-    public Driver(String id, String email, String lastname, String name, String password, String number, String identi, String placa, String marca, String modelo, int año, int puertas, int edad, String categoriaD, Date vigenciaDriver, Date vigenciaTarjetap, Date vigenciaSoat, String antecedentes, Date vigenciaTecno) {
+    public Driver(String id, String email, String lastname, String name, String password, String number, String identi, String placa, String marca, String modelo,int año, int puertas, Date fechaNa, String categoriaD, Date vigenciaDriver, Date vigenciaTarjetap, Date vigenciaSoat, String antecedentes, Date vigenciaTecno) {
         super(id, email, lastname, name, password, number, identi);
         this.placa = placa;
         this.marca = marca;

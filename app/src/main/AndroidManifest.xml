@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.driver.RegisterDriver"
-            android:parentActivityName=".activities.MainActivity"></activity>
+            android:parentActivityName=".activities.client.Register"></activity>
         <activity android:name=".activities.pantallaInicial">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

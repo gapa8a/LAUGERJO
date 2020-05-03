@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.laugerjo.R;
 import com.example.laugerjo.activities.MainActivity;
+import com.example.laugerjo.activities.driver.RegisterDriver;
 import com.example.laugerjo.includes.toolbar;
 import com.example.laugerjo.model.Client;
 import com.example.laugerjo.model.Driver;
@@ -94,6 +95,38 @@ public class Register extends AppCompatActivity {
                     }
 
 
+                }else{
+                    Toast.makeText(Register.this, "Complete todos los campos.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        btnSig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                name=edtNombre.getText().toString();
+                lastname=edtApellido.getText().toString();
+                email=edtCorreo.getText().toString();
+                password=edtContra.getText().toString();
+                number=edtNumero.getText().toString();
+                identi=edtIdenti.getText().toString();
+
+
+                if(!name.isEmpty() && !lastname.isEmpty() && !email.isEmpty() && !password.isEmpty() && !number.isEmpty() && !identi.isEmpty()){
+                    if(password.length() >=6){
+                        Intent intent = new Intent(Register.this, RegisterDriver.class);
+                        intent.putExtra("name",edtNombre.getText().toString());
+                        intent.putExtra("lastname",edtApellido.getText().toString());
+                        intent.putExtra("email",edtCorreo.getText().toString());
+                        intent.putExtra("password",edtContra.getText().toString());
+                        intent.putExtra("number",edtNumero.getText().toString());
+                        intent.putExtra("identi",edtIdenti.getText().toString());
+                        Register.this.startActivity(intent);
+
+
+                    }else{
+                        Toast.makeText(Register.this, "La contraseña debe tener al menos 6 caracteres.",Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(Register.this, "Complete todos los campos.",Toast.LENGTH_SHORT).show();
                 }

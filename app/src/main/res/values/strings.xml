@@ -34,9 +34,11 @@
     <string name="rdvigeniciaDriver">Fecha de vencimiento de licencia de conducción</string>
     <string name="rdvigenciaTarjetap">Fecha de vencimiento de tarjeta de propiedad</string>
     <string name="rdvigenciaSoat">Fecha de vencimiento del Soat</string>
-    <string name="rdantecedentes">Antecedentes judiciales</string>
+    <string name="rdantecedentes">¿Tiene usted antecedentes Judiciales?</string>
     <string name="rdvigenciaTecno">Fecha de vencimiento de la revisión Tecnomecanica</string>
     <string name="home_second">Home Second</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
 
 
 </resources>
