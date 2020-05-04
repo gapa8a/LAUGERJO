@@ -88,8 +88,12 @@ public class Register extends AppCompatActivity {
 
                 if(!name.isEmpty() && !lastname.isEmpty() && !email.isEmpty() && !password.isEmpty()&& !number.isEmpty()&& !identi.isEmpty()){
                     if(password.length() >=6){
-                        registerUser(email,lastname,name,password,number,identi);
-                       // Driver driver = new Driver();
+                        if(number.length()==10) {
+                            registerUser(email, lastname, name, password, number, identi);
+                            // Driver driver = new Driver();
+                        }else{
+                            Toast.makeText(Register.this, "El número de celular debe tener 10 caracteres.",Toast.LENGTH_SHORT).show();
+                        }
                     }else{
                         Toast.makeText(Register.this, "El password debe tener al menos 6 caracteres.",Toast.LENGTH_SHORT).show();
                     }
@@ -114,15 +118,18 @@ public class Register extends AppCompatActivity {
 
                 if(!name.isEmpty() && !lastname.isEmpty() && !email.isEmpty() && !password.isEmpty() && !number.isEmpty() && !identi.isEmpty()){
                     if(password.length() >=6){
-                        Intent intent = new Intent(Register.this, RegisterDriver.class);
-                        intent.putExtra("name",edtNombre.getText().toString());
-                        intent.putExtra("lastname",edtApellido.getText().toString());
-                        intent.putExtra("email",edtCorreo.getText().toString());
-                        intent.putExtra("password",edtContra.getText().toString());
-                        intent.putExtra("number",edtNumero.getText().toString());
-                        intent.putExtra("identi",edtIdenti.getText().toString());
-                        Register.this.startActivity(intent);
-
+                        if(number.length()==10) {
+                            Intent intent = new Intent(Register.this, RegisterDriver.class);
+                            intent.putExtra("name", edtNombre.getText().toString());
+                            intent.putExtra("lastname", edtApellido.getText().toString());
+                            intent.putExtra("email", edtCorreo.getText().toString());
+                            intent.putExtra("password", edtContra.getText().toString());
+                            intent.putExtra("number", edtNumero.getText().toString());
+                            intent.putExtra("identi", edtIdenti.getText().toString());
+                            Register.this.startActivity(intent);
+                        }else{
+                            Toast.makeText(Register.this, "El número de celular debe tener 10 caracteres.",Toast.LENGTH_SHORT).show();
+                        }
 
                     }else{
                         Toast.makeText(Register.this, "La contraseña debe tener al menos 6 caracteres.",Toast.LENGTH_SHORT).show();

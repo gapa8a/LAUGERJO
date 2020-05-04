@@ -28,9 +28,9 @@
     <string name="rdmarca">Marca del automovil</string>
     <string name="rdmodelo">Modelo del automovil</string>
     <string name="rdano">Año del automovil</string>
-    <string name="rdpuertas">Cantidad de puertas del vehiculo</string>
+    <string name="rdpuertas">¿Su vehículo tiene mínimo 4 puertas?</string>
     <string name="rdfechaNa">Fecha de nacimiento del conductor</string>
-    <string name="rdcategoriaD">Categoria de la licencia</string>
+    <string name="rdcategoriaD">¿Tiene la categoría  B1 en su  licencia de conducción?</string>
     <string name="rdvigeniciaDriver">Fecha de vencimiento de licencia de conducción</string>
     <string name="rdvigenciaTarjetap">Fecha de vencimiento de tarjeta de propiedad</string>
     <string name="rdvigenciaSoat">Fecha de vencimiento del Soat</string>

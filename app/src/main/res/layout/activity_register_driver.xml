@@ -54,12 +54,41 @@
             android:inputType="text"
             android:maxLines="1" />
 
-        <EditText
+        <!--<EditText
             android:id="@+id/edtNumerop"
             style="@style/modifiedEditText"
             android:hint="@string/rdpuertas"
             android:inputType="number"
-            android:maxLines="1" />
+            android:maxLines="1" />-->
+        <TextView
+            style="@style/viewParent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/rdpuertas"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/newsMoreTextSize"></TextView>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbpSi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/si"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/rbpNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no"></RadioButton>
+        </RadioGroup>
+
 
         <EditText
             android:id="@+id/edtAnio"
@@ -76,12 +105,41 @@
             android:inputType="date"
             android:maxLines="1" />
 
-        <EditText
+        <!--<EditText
             android:id="@+id/edtCategoriaD"
             style="@style/modifiedEditText"
             android:hint="@string/rdcategoriaD"
             android:inputType="text"
-            android:maxLines="1" />
+            android:maxLines="1" />-->
+        <TextView
+            style="@style/viewParent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/rdcategoriaD"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/newsMoreTextSize"></TextView>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbcSi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/si"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/rbcNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no"></RadioButton>
+        </RadioGroup>
+
 
         <EditText
             android:id="@+id/edtVigenD"
@@ -104,30 +162,35 @@
             android:hint="@string/rdvigenciaSoat"
             android:inputType="date"
             android:maxLines="1" />
+
         <TextView
+            style="@style/viewParent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            style="@style/viewParent"
+            android:text="@string/rdantecedentes"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/newsMoreTextSize"
-            android:text="@string/rdantecedentes"></TextView>
-       <RadioGroup
-           android:layout_width="wrap_content"
-           android:orientation="horizontal"
-           android:layout_gravity="center"
-           android:layout_height="wrap_content">
-           <RadioButton
-            android:layout_width="match_parent"
-               android:text="@string/si"
-               android:id="@+id/rbSi"
-            android:layout_height="wrap_content"></RadioButton>
-           <RadioButton
-               android:text="@string/no"
-               android:id="@+id/rbNo"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"></RadioButton>
-       </RadioGroup>
+            android:textSize="@dimen/newsMoreTextSize"></TextView>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbSi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/si"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/rbNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no"></RadioButton>
+        </RadioGroup>
 
 
         <EditText

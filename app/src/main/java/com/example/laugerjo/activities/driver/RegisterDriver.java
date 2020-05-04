@@ -47,7 +47,7 @@ public class RegisterDriver extends AppCompatActivity {
 
     private EditText edtVigenTecno;
     private TextView txtlogin;
-    private RadioButton rbSi,rbNo;
+    private RadioButton rbSi,rbNo,rbpNo,rbpSi,rbcSi,rbcNo;
     private Button btnReg;
     private String name= "";
     private String id= "";
@@ -87,14 +87,17 @@ public class RegisterDriver extends AppCompatActivity {
             edtPlaca= findViewById(R.id.edtPlaca);
             edtMarca =findViewById(R.id.edtMarca);
             edtModelo =findViewById(R.id.edtModelo);
-            edtNumerop =findViewById(R.id.edtNumerop);
+            //edtNumerop =findViewById(R.id.edtNumerop);
             edtAnio =findViewById(R.id.edtAnio);
             edtConduNaci =findViewById(R.id.edtConduNaci);
-            edtCategoriaD =findViewById(R.id.edtCategoriaD);
+            //edtCategoriaD =findViewById(R.id.edtCategoriaD);
             edtVigenD =findViewById(R.id.edtVigenD);
             edtVigenTp =findViewById(R.id.edtVigenTp);
             edtVigenSoat =findViewById(R.id.edtVigenSoat);
-
+            rbcNo =findViewById(R.id.rbcNo);
+            rbcSi =findViewById(R.id.rbcSi);
+            rbpNo =findViewById(R.id.rbpNo);
+            rbpSi =findViewById(R.id.rbpSi);
             rbNo =findViewById(R.id.rbNo);
             rbSi =findViewById(R.id.rbSi);
             edtVigenTecno =findViewById(R.id.edtVigenTecno);
@@ -123,7 +126,7 @@ public class RegisterDriver extends AppCompatActivity {
                     placa = edtPlaca.getText().toString();
                     marca =edtMarca.getText().toString();
                     modelo =edtModelo.getText().toString();
-                    numerop= Integer.parseInt(edtNumerop.getText().toString()) ;
+                   // numerop= Integer.parseInt(edtNumerop.getText().toString()) ;
                     anio=Integer.parseInt(edtAnio.getText().toString());
                     try {
                         conduNaci =deStringADate(edtConduNaci.getText().toString());
@@ -135,8 +138,19 @@ public class RegisterDriver extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    categoriaD =edtCategoriaD.getText().toString();
-
+                    //categoriaD =edtCategoriaD.getText().toString();
+                    if (rbcSi.isChecked()==true) {
+                        categoriaD="B1";
+                    } else
+                    if (rbcNo.isChecked()==true) {
+                        categoriaD="";
+                    }
+                    if (rbpSi.isChecked()==true) {
+                        numerop=4;
+                    } else
+                    if (rbpNo.isChecked()==true) {
+                        numerop=2;
+                    }
 
                     if (rbSi.isChecked()==true) {
                         antece="Si";
@@ -146,10 +160,20 @@ public class RegisterDriver extends AppCompatActivity {
                     }
 
 
-                    if(!placa.isEmpty() && !marca.isEmpty() && !modelo.isEmpty()&& numerop>=4 && anio>=2010 &&  !categoriaD.isEmpty()&& !antece.isEmpty()){
-
-                        registerUser(email,lastname,name,password,number,identi,placa,marca,modelo,anio,numerop,conduNaci,categoriaD,vigenD,vigenTp,vigenSoat,antece,vigenTecno);
-
+                    if(!placa.isEmpty() && !marca.isEmpty() && !modelo.isEmpty() && anio>=2010 /*&& !conduNaci.equals("")&& !categoriaD.isEmpty()&& !vigenD.equals("") && !vigenTp.equals("")&& !vigenSoat.equals("")  &&antece.isEmpty()&& !vigenTecno.equals("")*/){
+                        if(placa.length() == 6) {
+                           if(numerop >=4) {
+                               if(categoriaD == "B1") {
+                                   registerUser(email, lastname, name, password, number, identi, placa, marca, modelo, anio, numerop, conduNaci, categoriaD, vigenD, vigenTp, vigenSoat, antece, vigenTecno);
+                               }else{
+                                   Toast.makeText(RegisterDriver.this, "La licencia de conducción debe poseer la categoria B1.",Toast.LENGTH_SHORT).show();
+                               }
+                               }else{
+                                Toast.makeText(RegisterDriver.this, "El vehiculo debe tener minimo 4 puertas.",Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            Toast.makeText(RegisterDriver.this, "La placa debe contener 6 caracteres.",Toast.LENGTH_SHORT).show();
+                        }
                     }else{
                         Toast.makeText(RegisterDriver.this, "Complete todos los campos.",Toast.LENGTH_SHORT).show();
                     }
