@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.laugerjo.R;
 import com.example.laugerjo.activities.MainActivity;
+import com.example.laugerjo.activities.driver.MapDriverActivity;
 import com.example.laugerjo.activities.driver.RegisterDriver;
 import com.example.laugerjo.includes.toolbar;
 import com.example.laugerjo.model.Client;
@@ -145,7 +146,10 @@ public class Register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
               if(task.isSuccessful()){
-                  Toast.makeText(Register.this,"El cliente se creo",Toast.LENGTH_SHORT).show();
+                  //Toast.makeText(Register.this,"El cliente se creo",Toast.LENGTH_SHORT).show();
+                  Intent intent =new Intent(Register.this, MapDriverActivity.class);
+                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//Con este add flag se asegura no volver a la pantalla de registro
+                  startActivity(intent);
               } else {
                 Toast.makeText(Register.this,"El cliente no pudo ser creado",Toast.LENGTH_SHORT).show();
               }

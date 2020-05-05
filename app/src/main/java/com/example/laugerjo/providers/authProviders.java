@@ -16,4 +16,7 @@ public class authProviders {
     public Task<AuthResult> login(String email, String password){
         return Aunte.signInWithEmailAndPassword(email, password);
     }
+    public  void logout(){
+        Aunte.signOut();
+    }
 }

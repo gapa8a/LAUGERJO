@@ -18,8 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.driver.RegisterDriver"
-            android:parentActivityName=".activities.client.Register"></activity>
+        <activity android:name=".activities.driver.MapDriverActivity"></activity>
+        <activity android:name=".activities.client.MapClientActivity" />
+        <activity
+            android:name=".activities.driver.RegisterDriver"
+            android:parentActivityName=".activities.client.Register" />
         <activity android:name=".activities.pantallaInicial">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,13 +38,13 @@
         <activity
             android:name=".activities.Forgot"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.ProfileActivity" />
+
         <activity
             android:name=".activities.client.Register"
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.MainActivity"
-            android:parentActivityName=".activities.pantallaInicial"></activity>
+            android:parentActivityName=".activities.pantallaInicial" />
     </application>
 
 </manifest>

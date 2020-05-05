@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.laugerjo.R;
+import com.example.laugerjo.activities.client.MapClientActivity;
+import com.example.laugerjo.activities.driver.MapDriverActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class pantallaInicial extends AppCompatActivity {
     private Button btnCondu,btnClien;
@@ -27,9 +30,7 @@ public class pantallaInicial extends AppCompatActivity {
             public void onClick(View v) {
                 editor.putString("user","client");
                 editor.apply();
-                Intent intent = new Intent(pantallaInicial.this, MainActivity.class);
-                pantallaInicial.this.startActivity(intent);
-                //finish();
+                goToLogin();
             }
         });
         btnCondu.setOnClickListener(new View.OnClickListener() {
@@ -37,10 +38,31 @@ public class pantallaInicial extends AppCompatActivity {
             public void onClick(View v) {
                 editor.putString("user","driver");
                 editor.apply();
-                Intent intent = new Intent(pantallaInicial.this, MainActivity.class);
-                pantallaInicial.this.startActivity(intent);
-                //finish();
+                goToLogin();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            String user = pref.getString("user","");
+            if(user.equals("client")){
+                Intent intent =new Intent(pantallaInicial.this, MapClientActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//Con este add flag se asegura no volver a la pantalla de registro
+                startActivity(intent);
+
+            }else {
+                Intent intent =new Intent(pantallaInicial.this, MapDriverActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//Con este add flag se asegura no volver a la pantalla de registro
+                startActivity(intent);
+            }
+        }
+    }
+
+    private void goToLogin(){
+        Intent intent =new Intent(pantallaInicial.this,MainActivity.class);
+        startActivity(intent);
     }
 }

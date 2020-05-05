@@ -198,8 +198,10 @@ public class RegisterDriver extends AppCompatActivity {
                         Driver driver = new Driver(id,email,lastname,name,password,number,identi ,placa,marca,modelo,anio,numerop,conduNaci,categoriaD,vigenD,vigenTp,vigenSoat,antece,vigenTecno);
                         create(driver);
 
-                        Toast.makeText(RegisterDriver.this,"El conductor se creo correctamente",Toast.LENGTH_SHORT).show();
-
+                        //Toast.makeText(RegisterDriver.this,"El conductor se creo correctamente",Toast.LENGTH_SHORT).show();
+                        Intent intent =new Intent(RegisterDriver.this,MapDriverActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//Con este add flag se asegura no volver a la pantalla de registro
+                        startActivity(intent);
                     } else {
                         Toast.makeText(RegisterDriver.this,"El conductor no pudo ser creado",Toast.LENGTH_SHORT).show();
                     }
