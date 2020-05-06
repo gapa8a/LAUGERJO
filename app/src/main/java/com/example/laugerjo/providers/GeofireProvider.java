@@ -2,6 +2,7 @@ package com.example.laugerjo.providers;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,5 +20,10 @@ public class GeofireProvider {
     }
     public void removeLocation(String idDriver){
         geoFire.removeLocation(idDriver);
+    }
+    public GeoQuery getActiveDrivers(LatLng latLng){
+        GeoQuery geoQuery =  geoFire.queryAtLocation(new GeoLocation(latLng.latitude ,latLng.longitude),5);
+        geoQuery.removeAllListeners();
+        return geoQuery;
     }
 }

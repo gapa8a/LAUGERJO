@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +30,11 @@ import com.example.laugerjo.R;
 import com.example.laugerjo.activities.driver.MapDriverActivity;
 import com.example.laugerjo.activities.pantallaInicial;
 import com.example.laugerjo.includes.toolbar;
+import com.example.laugerjo.providers.GeofireProvider;
 import com.example.laugerjo.providers.authProviders;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQueryEventListener;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -37,8 +44,24 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.maps.android.SphericalUtil;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class MapClientActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -48,21 +71,55 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private LocationRequest locationRequest;
     private FusedLocationProviderClient FusedLocation;
 
+    private GeofireProvider geofireProvider;
+
     private final static int  LOCATION_REQUEST_CODE = 1;
 
     private final static int  SETTINGS_REQUEST_CODE = 2;
+
+
+    private Marker marker;
+    private LatLng currentLatlng;
+
+    private List<Marker> driversMarkers = new ArrayList<>();
+
+    private boolean isFirstTime = true;
+    private PlacesClient placesClient;
+    private AutocompleteSupportFragment autocomplete;
+    private AutocompleteSupportFragment autocompleteDestination;
+
+    private String origin;
+    private  LatLng originLatLng;
+
+    private String destination;
+    private  LatLng destinationLatLng;
+    private GoogleMap.OnCameraIdleListener cameraListener;
+
 
     com.google.android.gms.location.LocationCallback LocationCallback =new LocationCallback(){
         @Override
         public void onLocationResult(LocationResult locationResult){
             for (Location location:locationResult.getLocations()){
                 if(getApplicationContext() != null){
+
+                    currentLatlng = new LatLng(location.getLatitude(),location.getLongitude());
+                    /*if(marker !=null){
+                        marker.remove();
+                    }*/
+                    /*marker= Mapa.addMarker(new MarkerOptions().position(
+                            new LatLng(location.getLatitude(), location.getLongitude())
+                    ).title("Tu posición").icon(BitmapDescriptorFactory.fromResource(R.drawable.ubicaci_n_usuario)));*/
                     // Obtener la localización del usuario en tiempo real
                     Mapa.moveCamera(CameraUpdateFactory.newCameraPosition(
                             new CameraPosition.Builder().target(new LatLng(location.getLatitude(),location.getLongitude()))
                                     .zoom(15f)
                                     .build()
                     ));
+                    if (isFirstTime){
+                        isFirstTime = false;
+                        getActiveDrivers();
+                        limitSearch();
+                    }
                 }
             }
         }
@@ -77,16 +134,143 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
+       geofireProvider = new GeofireProvider();
         FusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
-        // btnLogoutD=findViewById(R.id.btnLogoutD);
+       if(!Places.isInitialized()){
+           Places.initialize(getApplicationContext(),getResources().getString(R.string.google_maps_key));
+       }
+       placesClient = Places.createClient(this);
+        instanceAutocompleteOrigin();
+        instanceAutocompleteDestination();
+        onCameraMove();
 
-       /* btnLogoutD.setOnClickListener(new View.OnClickListener() {
+
+
+    }
+    private void limitSearch(){
+        LatLng northSide = SphericalUtil.computeOffset(currentLatlng, 5000, 0);
+        LatLng southSide = SphericalUtil.computeOffset(currentLatlng, 5000, 180);
+        autocomplete.setCountry("CO");
+        autocomplete.setLocationBias(RectangularBounds.newInstance(southSide,northSide));
+        autocompleteDestination.setCountry("CO");
+        autocompleteDestination.setLocationBias(RectangularBounds.newInstance(southSide,northSide));
+    }
+
+    private void onCameraMove(){
+        cameraListener = new GoogleMap.OnCameraIdleListener() {
             @Override
-            public void onClick(View v) {
-                logout();
+            public void onCameraIdle() {
+                try {
+                    Geocoder geocoder =  new Geocoder(MapClientActivity.this);
+                    originLatLng = Mapa.getCameraPosition().target;
+                    List<Address>addressList = geocoder.getFromLocation(originLatLng.latitude ,originLatLng.longitude, 1);
+                    String city = addressList.get(0).getLocality();
+                    String country = addressList.get(0).getCountryName();
+                    String address = addressList.get(0).getAddressLine(0);
+                    origin = address +" " +city;
+                    autocomplete.setText(address +" " +city);
+                }catch (Exception e ){
+                    Log.d("Error:","Mensaje error: " +e.getMessage());
+                }
             }
-        });*/
+        };
+    }
+    private void  instanceAutocompleteOrigin(){
+        autocomplete =(AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.placeAutocompleteOrigin);
+        autocomplete.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME));
+        autocomplete.setHint("Lugar de origen");
+        autocomplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                origin = place.getName();
+                originLatLng =place.getLatLng();
+                Log.d("PLACE","Name: " + origin);
+                Log.d("PLACE","Lat: " + originLatLng.latitude);
+                Log.d("PLACE","Lng: " + originLatLng.longitude);
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+
+            }
+        });
+    }
+    private void  instanceAutocompleteDestination(){
+        autocompleteDestination =(AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.placeAutocompleteDestination);
+        autocompleteDestination.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME));
+        autocompleteDestination.setHint("Lugar de destino");
+        autocompleteDestination.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                destination = place.getName();
+                destinationLatLng =place.getLatLng();
+                Log.d("PLACE","Name: " + destination);
+                Log.d("PLACE","Lat: " + destinationLatLng.latitude);
+                Log.d("PLACE","Lng: " + destinationLatLng.longitude);
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+
+            }
+        });
+    }
+    private void getActiveDrivers(){
+        geofireProvider.getActiveDrivers(currentLatlng).addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+            //Se añadiran los marcadores de los conductores que se conecten en la aplicación
+                for (Marker marker:driversMarkers){
+                    if(marker.getTag()!=null){
+                        if(marker.getTag().equals(key)){
+                            return;
+                        }
+                    }
+                }
+                LatLng driverLatLng = new LatLng(location.latitude , location.longitude);
+                Marker marker = Mapa.addMarker(new MarkerOptions().position(driverLatLng).title("Conductor disponible").icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_condu)));
+                marker.setTag(key);
+                driversMarkers.add(marker);
+
+
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                for (Marker marker:driversMarkers){
+                    if(marker.getTag()!=null){
+                        if(marker.getTag().equals(key)){
+                            marker.remove();
+                            driversMarkers.remove(marker);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                //Actualizar la posición de cada conductor
+                for (Marker marker:driversMarkers){
+                    if(marker.getTag()!=null){
+                        if(marker.getTag().equals(key)){
+                            marker.setPosition(new LatLng(location.latitude, location.longitude));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -94,7 +278,8 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         Mapa = googleMap;
         Mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         Mapa.getUiSettings().setZoomControlsEnabled(true);
-        Mapa.setMyLocationEnabled(true);
+
+        Mapa.setOnCameraIdleListener(cameraListener);
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
@@ -109,7 +294,8 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SETTINGS_REQUEST_CODE && gpsActived() ){
             FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
-        }else{
+            Mapa.setMyLocationEnabled(true);
+        }else if (requestCode == SETTINGS_REQUEST_CODE && !gpsActived() ){
             showAlertDialogNOGPS();
         }
     }
@@ -122,6 +308,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
                 if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
                     if(gpsActived()){
                         FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
+                        Mapa.setMyLocationEnabled(true);
                     }else{
                         showAlertDialogNOGPS();
                     }
@@ -160,6 +347,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
             if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED) {
                 if (gpsActived()) {
                     FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
+                    Mapa.setMyLocationEnabled(true);
                 } else{
                     showAlertDialogNOGPS();
                 }
@@ -170,6 +358,8 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         } else {
             if(gpsActived()){
                 FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
+                Mapa.setMyLocationEnabled(true);
+
             } else{
                 showAlertDialogNOGPS();
             }

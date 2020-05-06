@@ -75,9 +75,12 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                     if(marker !=null){
                         marker.remove();
                     }
+                    currentLatlng = new LatLng(location.getLatitude(),location.getLongitude());
+
                     marker= Mapa.addMarker(new MarkerOptions().position(
                             new LatLng(location.getLatitude(), location.getLongitude())
                             ).title("Tu posición").icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_condu)));
+
                     Mapa.moveCamera(CameraUpdateFactory.newCameraPosition(
                             new CameraPosition.Builder().target(new LatLng(location.getLatitude(),location.getLongitude()))
                             .zoom(16f)
