@@ -7,11 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import com.example.laugerjo.R;
 import com.example.laugerjo.activities.client.MapClientActivity;
 import com.example.laugerjo.activities.driver.MapDriverActivity;
 import com.google.firebase.auth.FirebaseAuth;
+
+
 
 public class pantallaInicial extends AppCompatActivity {
     private Button btnCondu,btnClien;
@@ -23,6 +24,8 @@ public class pantallaInicial extends AppCompatActivity {
         setContentView(R.layout.activity_pantalla_inicial);
         btnCondu = findViewById(R.id.btnCondu);
         btnClien = findViewById(R.id.btnClien);
+
+
         pref =getApplicationContext().getSharedPreferences("typeUser", MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
         btnClien.setOnClickListener(new View.OnClickListener() {

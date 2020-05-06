@@ -19,4 +19,14 @@ public class authProviders {
     public  void logout(){
         Aunte.signOut();
     }
+    public String getId(){
+        return Aunte.getCurrentUser().getUid();
+    }
+    public boolean existSession(){
+        boolean exist = false;
+        if(Aunte.getCurrentUser() !=null){
+            exist =true;
+        }
+        return exist;
+    }
 }

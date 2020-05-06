@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class RegisterDriver extends AppCompatActivity {
@@ -59,7 +60,8 @@ public class RegisterDriver extends AppCompatActivity {
     private String placa="";
     private String marca="";
     private String modelo="";
-    private int anio;
+    //private int anio;
+    private String anio;
     private Date conduNaci;
     private String categoriaD="";
     private Date vigenD;
@@ -87,10 +89,8 @@ public class RegisterDriver extends AppCompatActivity {
             edtPlaca= findViewById(R.id.edtPlaca);
             edtMarca =findViewById(R.id.edtMarca);
             edtModelo =findViewById(R.id.edtModelo);
-            //edtNumerop =findViewById(R.id.edtNumerop);
             edtAnio =findViewById(R.id.edtAnio);
             edtConduNaci =findViewById(R.id.edtConduNaci);
-            //edtCategoriaD =findViewById(R.id.edtCategoriaD);
             edtVigenD =findViewById(R.id.edtVigenD);
             edtVigenTp =findViewById(R.id.edtVigenTp);
             edtVigenSoat =findViewById(R.id.edtVigenSoat);
@@ -126,8 +126,8 @@ public class RegisterDriver extends AppCompatActivity {
                     placa = edtPlaca.getText().toString();
                     marca =edtMarca.getText().toString();
                     modelo =edtModelo.getText().toString();
-                   // numerop= Integer.parseInt(edtNumerop.getText().toString()) ;
-                    anio=Integer.parseInt(edtAnio.getText().toString());
+                   // anio=Integer.parseInt(edtAnio.getText().toString());
+                    anio=edtAnio.getText().toString();
                     try {
                         conduNaci =deStringADate(edtConduNaci.getText().toString());
                         vigenD = deStringADate(edtVigenD.getText().toString());
@@ -138,7 +138,6 @@ public class RegisterDriver extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    //categoriaD =edtCategoriaD.getText().toString();
                     if (rbcSi.isChecked()==true) {
                         categoriaD="B1";
                     } else
@@ -158,14 +157,22 @@ public class RegisterDriver extends AppCompatActivity {
                     if (rbNo.isChecked()==true) {
                         antece="No";
                     }
+                    int  year= Calendar.getInstance().get(Calendar.YEAR);
 
 
-                    if(!placa.isEmpty() && !marca.isEmpty() && !modelo.isEmpty() && anio>=2010 /*&& !conduNaci.equals("")&& !categoriaD.isEmpty()&& !vigenD.equals("") && !vigenTp.equals("")&& !vigenSoat.equals("")  &&antece.isEmpty()&& !vigenTecno.equals("")*/){
+
+                    if(!placa.isEmpty() && !marca.isEmpty() && !modelo.isEmpty() && !anio.isEmpty()  /*&& !conduNaci.equals("")&& !categoriaD.isEmpty()&& !vigenD.equals("") && !vigenTp.equals("")&& !vigenSoat.equals("")  &&antece.isEmpty()&& !vigenTecno.equals("")*/){
                         if(placa.length() == 6) {
                            if(numerop >=4) {
                                if(categoriaD == "B1") {
-                                   registerUser(email, lastname, name, password, number, identi, placa, marca, modelo, anio, numerop, conduNaci, categoriaD, vigenD, vigenTp, vigenSoat, antece, vigenTecno);
-                               }else{
+                                   int ano = Integer.parseInt(anio);
+                                   System.out.println(ano-10);
+                                  if((year-10)<=ano) {
+                                       registerUser(email, lastname, name, password, number, identi, placa, marca, modelo, ano, numerop, conduNaci, categoriaD, vigenD, vigenTp, vigenSoat, antece, vigenTecno);
+                                   }else {
+                                       Toast.makeText(RegisterDriver.this, "El automovil debe ser menor a 11 años.", Toast.LENGTH_SHORT).show();
+                                   }
+                                   }else{
                                    Toast.makeText(RegisterDriver.this, "La licencia de conducción debe poseer la categoria B1.",Toast.LENGTH_SHORT).show();
                                }
                                }else{
@@ -195,11 +202,7 @@ public class RegisterDriver extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Driver driver = new Driver(id,email,lastname,name,password,number,identi ,placa,marca,modelo,anio,numerop,conduNaci,categoriaD,vigenD,vigenTp,vigenSoat,antece,vigenTecno);
-                        create(driver);
-
-                        //Toast.makeText(RegisterDriver.this,"El conductor se creo correctamente",Toast.LENGTH_SHORT).show();
-                        Intent intent =new Intent(RegisterDriver.this,MapDriverActivity.class);
+                       Intent intent =new Intent(RegisterDriver.this,MapDriverActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//Con este add flag se asegura no volver a la pantalla de registro
                         startActivity(intent);
                     } else {
@@ -216,41 +219,10 @@ public class RegisterDriver extends AppCompatActivity {
                         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         pref = getApplicationContext().getSharedPreferences("typeUser", MODE_PRIVATE);
                         String sUser = pref.getString("user", "");
-                    /*Users users = new Users();
-                    users.setId(id);
-                    users.setEmail(email);
-                    users.setLastname(lastname);
-                    users.setName(name);
-                    users.setPassword(password);
-                    users.setNumber(number);
-                    users.setIdenti(identi);*/
-
                         if (sUser.equals("driver")) {
 
                             Driver driver = new Driver(id,email,lastname,name,password,number,identi,placa,marca,modelo,anio,numerop,conduNaci,categoriaD,vigenD ,vigenTp,vigenSoat,antece,vigenTecno);
                             create(driver);
-                        /*DB.child("Users").child("Drivers").child(id).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Registro de conductor exitoso.", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(Register.this, "Fallo registro de conductor.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });*/
-                        } else if (sUser.equals("client")) {
-                                   /*
-                        DB.child("Users").child("Clients").child(id).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Registro de cliente  exitoso.", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(Register.this, "Fallo registro de cliente.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });*/
                         }
 
                     }

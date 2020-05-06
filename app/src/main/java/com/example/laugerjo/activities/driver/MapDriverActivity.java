@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import com.example.laugerjo.R;
 import com.example.laugerjo.activities.pantallaInicial;
 import com.example.laugerjo.includes.toolbar;
+import com.example.laugerjo.providers.GeofireProvider;
 import com.example.laugerjo.providers.authProviders;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -42,31 +44,34 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
     private GoogleMap Mapa;
     private SupportMapFragment Mapafragmento;
+    private authProviders Aunteti;
     //Button btnLogoutD;
     private Button btnConnect;
     private boolean isConnect = false;
     private LocationRequest locationRequest;
     private FusedLocationProviderClient FusedLocation;
+    private GeofireProvider geofireProvider;
 
     private final static int  LOCATION_REQUEST_CODE = 1;
 
     private final static int  SETTINGS_REQUEST_CODE = 2;
 
     private Marker marker;
-
+    private LatLng currentLatlng;
     LocationCallback LocationCallback =new LocationCallback(){
         @Override
         public void onLocationResult(LocationResult locationResult){
             for (Location location:locationResult.getLocations()){
                 if(getApplicationContext() != null){
                     // Obtener la localización del usuario en tiempo real
-
+                    currentLatlng = new LatLng(location.getLatitude(),location.getLongitude());
                     if(marker !=null){
                         marker.remove();
                     }
@@ -78,16 +83,19 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                             .zoom(16f)
                             .build()
                     ));
+                    updateLocation();
                 }
             }
         }
     };
-     private authProviders Aunteti;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_driver);
         Aunteti = new authProviders();
+        geofireProvider = new GeofireProvider();
+
         toolbar.show(this,"Conductor",false);
 
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -100,7 +108,6 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 if(isConnect){
                     disconnect();
                 }else{
-
                     startLocation();
                 }
             }
@@ -115,18 +122,24 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         });*/
     }
 
+         private void updateLocation(){
+        if(Aunteti.existSession() && currentLatlng !=null){
+            geofireProvider.saveLocation(Aunteti.getId(), currentLatlng);
+
+        }
+        }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Mapa = googleMap;
         Mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         Mapa.getUiSettings().setZoomControlsEnabled(true);
-        Mapa.setMyLocationEnabled(false); // ubicación con el punto azul = true
+
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setSmallestDisplacement(5);
-        startLocation();
     }
 
 
@@ -135,6 +148,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SETTINGS_REQUEST_CODE && gpsActived() ){
             FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
+            Mapa.setMyLocationEnabled(true); // ubicación con el punto azul = true
         }else{
             showAlertDialogNOGPS();
         }
@@ -148,6 +162,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
                     if(gpsActived()){
                     FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
+                        Mapa.setMyLocationEnabled(true); // ubicación con el punto azul = true
                     }else{
                         showAlertDialogNOGPS();
                     }
@@ -183,10 +198,16 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void disconnect(){
-        btnConnect.setText("Conectarse");
-        isConnect= false;
+
         if(FusedLocation !=null){
+            btnConnect.setText("Conectarse");
+            isConnect= false;
             FusedLocation.removeLocationUpdates(LocationCallback);
+            if(Aunteti.existSession()){
+                geofireProvider.removeLocation(Aunteti.getId());
+            }
+        } else{
+            Toast.makeText(this,"No te puedes desconectar",Toast.LENGTH_SHORT).show();
         }
     }
     private void startLocation(){
@@ -196,6 +217,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                     btnConnect.setText("Desconectarse");
                     isConnect= true;
                     FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
+                    Mapa.setMyLocationEnabled(true); // ubicación con el punto azul = true
                 } else{
                     showAlertDialogNOGPS();
             }
@@ -206,6 +228,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
             } else {
             if(gpsActived()){
                 FusedLocation.requestLocationUpdates(locationRequest, LocationCallback, Looper.myLooper());
+                Mapa.setMyLocationEnabled(true); // ubicación con el punto azul = true
             } else{
                 showAlertDialogNOGPS();
             }
@@ -240,12 +263,14 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()== R.id.action_logout){
+            disconnect(); // esto no deberia ir aquí sin no en el metodo logout
             logout();
         }
         return super.onOptionsItemSelected(item);
     }
 
     void logout(){
+        //disconnect(); este metodo deberia ejecutarse hay , hace que cuando se cierre sesión borre el nodo de la ubicación del conductor
         Aunteti.logout();
         Intent intent =new Intent(MapDriverActivity.this, pantallaInicial.class);
         startActivity(intent);
