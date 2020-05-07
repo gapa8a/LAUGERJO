@@ -44,6 +44,8 @@
     <string name="btnViajeAhora">Solicitar viaje</string>
     <string name="txtOrigen">Origen: </string>
     <string name="txtDestino">Destino: </string>
+    <string name="txtTiempoV">Tiempo: </string>
+    <string name="txtDistancia">Distancia: </string>
 
 
 
