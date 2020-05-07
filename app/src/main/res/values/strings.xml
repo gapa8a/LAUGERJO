@@ -40,6 +40,11 @@
     <string name="si">Si</string>
     <string name="no">No</string>
     <string name="btnDesco">Conectarse</string>
+    <string name="btnViaje">Solicitar viaje</string>
+    <string name="btnViajeAhora">Solicitar viaje</string>
+    <string name="txtOrigen">Origen: </string>
+    <string name="txtDestino">Destino: </string>
+
 
 
 </resources>

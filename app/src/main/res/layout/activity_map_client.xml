@@ -64,5 +64,13 @@
         android:layout_height="60dp"
         android:src="@drawable/ubicaci_n_usuario"
         android:layout_gravity="center"></ImageView>
+    <Button
+        android:id="@+id/btnViaje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnViaje"
+        style="@style/loginButton"
+        android:layout_margin="20dp"
+        android:layout_gravity="bottom"></Button>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

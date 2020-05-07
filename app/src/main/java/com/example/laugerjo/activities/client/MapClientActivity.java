@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,6 +57,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
@@ -80,6 +82,8 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
     private Marker marker;
     private LatLng currentLatlng;
+
+    private Button btnViaje;
 
     private List<Marker> driversMarkers = new ArrayList<>();
 
@@ -131,12 +135,11 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         setContentView(R.layout.activity_map_client);
         Aunteti = new authProviders();
         toolbar.show(this,"Cliente",false);
-
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
        geofireProvider = new GeofireProvider();
         FusedLocation = LocationServices.getFusedLocationProviderClient(this);
-
+        btnViaje = findViewById(R.id.btnViaje);
        if(!Places.isInitialized()){
            Places.initialize(getApplicationContext(),getResources().getString(R.string.google_maps_key));
        }
@@ -144,10 +147,30 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         instanceAutocompleteOrigin();
         instanceAutocompleteDestination();
         onCameraMove();
+        btnViaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestDriver();
+            }
+        });
 
 
 
     }
+
+    private void requestDriver() {
+        if(originLatLng != null && destinationLatLng !=null){
+            Intent intent = new Intent(MapClientActivity.this, DetailRequestActivty.class);
+            intent.putExtra("origin_lat",originLatLng.latitude);
+            intent.putExtra("origin_lng",originLatLng.longitude);
+            intent.putExtra("destination_lat",destinationLatLng.latitude);
+            intent.putExtra("destination_lng",destinationLatLng.longitude);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this,"Indique el lugar de recogida y destino.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void limitSearch(){
         LatLng northSide = SphericalUtil.computeOffset(currentLatlng, 5000, 0);
         LatLng southSide = SphericalUtil.computeOffset(currentLatlng, 5000, 180);
@@ -278,8 +301,8 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         Mapa = googleMap;
         Mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         Mapa.getUiSettings().setZoomControlsEnabled(true);
-
         Mapa.setOnCameraIdleListener(cameraListener);
+
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);

@@ -18,8 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.driver.MapDriverActivity"
+        <activity android:name=".activities.client.DetailRequestActivty"
+            android:parentActivityName=".activities.client.MapClientActivity"
             ></activity>
+        <activity android:name=".activities.driver.MapDriverActivity" />
         <activity android:name=".activities.client.MapClientActivity" />
         <activity
             android:name=".activities.driver.RegisterDriver"
@@ -39,7 +41,6 @@
         <activity
             android:name=".activities.Forgot"
             android:parentActivityName=".activities.MainActivity" />
-
         <activity
             android:name=".activities.client.Register"
             android:parentActivityName=".activities.MainActivity" />
