@@ -113,6 +113,7 @@
         </LinearLayout>
         <Button
             style="@style/loginButton"
+            android:id="@+id/btnRequestNow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btnViajeAhora"/>

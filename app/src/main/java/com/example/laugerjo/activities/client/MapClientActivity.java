@@ -32,6 +32,7 @@ import com.example.laugerjo.activities.driver.MapDriverActivity;
 import com.example.laugerjo.activities.pantallaInicial;
 import com.example.laugerjo.includes.toolbar;
 import com.example.laugerjo.providers.GeofireProvider;
+import com.example.laugerjo.providers.TokenProvider;
 import com.example.laugerjo.providers.authProviders;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryEventListener;
@@ -74,6 +75,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private FusedLocationProviderClient FusedLocation;
 
     private GeofireProvider geofireProvider;
+    private TokenProvider TokenProvider;
 
     private final static int  LOCATION_REQUEST_CODE = 1;
 
@@ -138,6 +140,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
        geofireProvider = new GeofireProvider();
+       TokenProvider = new TokenProvider();
         FusedLocation = LocationServices.getFusedLocationProviderClient(this);
         btnViaje = findViewById(R.id.btnViaje);
        if(!Places.isInitialized()){
@@ -153,7 +156,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
                 requestDriver();
             }
         });
-
+        generateToken();
 
 
     }
@@ -242,7 +245,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
     private void getActiveDrivers(){
-        geofireProvider.getActiveDrivers(currentLatlng).addGeoQueryEventListener(new GeoQueryEventListener() {
+        geofireProvider.getActiveDrivers(currentLatlng, 10).addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
             //Se añadiran los marcadores de los conductores que se conecten en la aplicación
@@ -430,5 +433,9 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         startActivity(intent);
         finish();
 
+    }
+
+    void generateToken(){
+        TokenProvider.create(Aunteti.getId());
     }
 }

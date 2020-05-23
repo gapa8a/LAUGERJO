@@ -28,6 +28,7 @@ import com.example.laugerjo.R;
 import com.example.laugerjo.activities.pantallaInicial;
 import com.example.laugerjo.includes.toolbar;
 import com.example.laugerjo.providers.GeofireProvider;
+import com.example.laugerjo.providers.TokenProvider;
 import com.example.laugerjo.providers.authProviders;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -58,6 +59,8 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     private LocationRequest locationRequest;
     private FusedLocationProviderClient FusedLocation;
     private GeofireProvider geofireProvider;
+
+    private TokenProvider TokenProvider;
 
     private final static int  LOCATION_REQUEST_CODE = 1;
 
@@ -98,6 +101,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         setContentView(R.layout.activity_map_driver);
         Aunteti = new authProviders();
         geofireProvider = new GeofireProvider();
+        TokenProvider = new TokenProvider();
 
         toolbar.show(this,"Conductor",false);
 
@@ -115,14 +119,8 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 }
             }
         });
-      // btnLogoutD=findViewById(R.id.btnLogoutD);
+        generateToken();
 
-       /* btnLogoutD.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });*/
     }
 
          private void updateLocation(){
@@ -279,5 +277,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         startActivity(intent);
         finish();
 
+    }
+
+    void generateToken(){
+        TokenProvider.create(Aunteti.getId());
     }
 }

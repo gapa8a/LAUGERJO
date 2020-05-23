@@ -46,7 +46,7 @@
     <string name="txtDestino">Destino: </string>
     <string name="txtTiempoV">Tiempo: </string>
     <string name="txtDistancia">Distancia: </string>
-
-
+    <string name="txtLookFor">BUSCANDO CONDUCTOR...</string>
+    <string name="btnCancel">CANCELAR VIAJE</string>
 
 </resources>

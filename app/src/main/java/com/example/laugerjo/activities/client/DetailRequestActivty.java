@@ -2,9 +2,12 @@ package com.example.laugerjo.activities.client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.laugerjo.R;
@@ -54,6 +57,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
     private PolylineOptions PolylineOptions;
 
     private TextView txtOrigin,txtDestination,txtTiempoV,txtDistancia;
+    private Button buttonRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +82,25 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         txtDestination =findViewById(R.id.txtDestination);
         txtTiempoV =findViewById(R.id.txtTiempoV);
         txtDistancia =findViewById(R.id.txtDistancia);
+        buttonRequest = findViewById(R.id.btnRequestNow);
         txtOrigin.setText(ExtraOrigin);
         txtDestination.setText(ExtraDestination);
+     buttonRequest.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             goToRequestDriver();
+         }
+     });
     }
+
+    private void goToRequestDriver() {
+        Intent intent = new Intent(DetailRequestActivty.this , RequestDriverActivity.class);
+        intent.putExtra("origin_lat",OriginLatLng.latitude);
+        intent.putExtra("origin_lng",OriginLatLng.longitude);
+        startActivity(intent);
+        finish();
+    }
+
     private void drawRoute(){
         googleApiProvider.getDirections(OriginLatLng,DestinationLatLng).enqueue(new Callback<String>() {
             @Override
