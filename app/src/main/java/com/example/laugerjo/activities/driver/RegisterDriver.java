@@ -1,17 +1,23 @@
 package com.example.laugerjo.activities.driver;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +85,8 @@ public class RegisterDriver extends AppCompatActivity {
 
     authProviders mauthProviders;
     DriverProvider mDriverProviders;
+    private CharSequence title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             Driver driver;
@@ -114,7 +122,48 @@ public class RegisterDriver extends AppCompatActivity {
                     finish();
                 }
             });
-            btnReg.setOnClickListener(new View.OnClickListener() {
+        edtConduNaci.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(1);
+            }
+        });
+        edtVigenD.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(2);
+            }
+        });
+
+        edtVigenTp.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(3);
+            }
+        });
+
+        edtVigenSoat.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(4);
+            }
+        });
+
+        edtVigenTecno.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(5);
+            }
+        });
+
+
+
+        btnReg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     name=getIntent().getStringExtra("name");
@@ -187,6 +236,44 @@ public class RegisterDriver extends AppCompatActivity {
                 }
             });
         }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void showDatePickerDialog(final int campoFecha) {
+        final Calendar c = Calendar.getInstance();
+
+        final int dia, mes, anio;
+        dia = c.get(Calendar.DAY_OF_MONTH);
+        mes = c.get(Calendar.MONTH);
+        anio = c.get(Calendar.YEAR);
+        String msg="";
+        DatePickerDialog newDialog = new DatePickerDialog(RegisterDriver.this, new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                c.set(Calendar.YEAR,year);
+                c.set(Calendar.MONTH,month);
+                c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                switch (campoFecha){
+                    case 1:edtConduNaci.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                    //msg= "Fecha de Nacimiento";
+                        break;
+                    case 2:edtVigenD.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                        break;
+                    case 3:edtVigenTp.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                        break;
+                    case 4:edtVigenSoat.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                        break;
+                    case 5:edtVigenTecno.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                        break;
+                }
+
+            }
+        }, anio, mes, dia);
+        newDialog.setMessage(msg);
+        newDialog.show();
+    }
+
     public static Date deStringADate(String fechaString) throws ParseException {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaDate = (Date)formatoFecha.parse(fechaString);

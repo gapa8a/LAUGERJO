@@ -103,6 +103,8 @@
             style="@style/modifiedEditText"
             android:hint="@string/rdfechaNa"
             android:inputType="date"
+            android:clickable="true"
+            android:focusable="false"
             android:maxLines="1" />
 
         <!--<EditText
@@ -146,6 +148,8 @@
             style="@style/modifiedEditText"
             android:hint="@string/rdvigeniciaDriver"
             android:inputType="date"
+            android:clickable="true"
+            android:focusable="false"
             android:maxLines="1" />
 
 
@@ -154,6 +158,8 @@
             style="@style/modifiedEditText"
             android:hint="@string/rdvigenciaTarjetap"
             android:inputType="date"
+            android:clickable="true"
+            android:focusable="false"
             android:maxLines="1" />
 
         <EditText
@@ -161,6 +167,8 @@
             style="@style/modifiedEditText"
             android:hint="@string/rdvigenciaSoat"
             android:inputType="date"
+            android:clickable="true"
+            android:focusable="false"
             android:maxLines="1" />
 
         <TextView
@@ -198,6 +206,8 @@
             style="@style/modifiedEditText"
             android:hint="@string/rdvigenciaTecno"
             android:inputType="date"
+            android:clickable="true"
+            android:focusable="false"
             android:maxLines="1" />
 
         <Button
