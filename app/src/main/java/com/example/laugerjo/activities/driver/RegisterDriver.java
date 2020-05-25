@@ -112,6 +112,9 @@ public class RegisterDriver extends AppCompatActivity {
             btnReg = findViewById(R.id.btnReg);
             txtlogin = findViewById(R.id.txtlogin);
             txtlogin = findViewById(R.id.txtlogin);
+
+
+
             toolbar.show(this,"Registro de Conductor",true);
             txtlogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,14 +129,15 @@ public class RegisterDriver extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(1);
+                showDatePickerDialog(1,"Fecha de Nacimiento");
+
             }
         });
         edtVigenD.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(2);
+                showDatePickerDialog(2,"Fecha de vencimiento Licencia de Conducción");
             }
         });
 
@@ -141,7 +145,7 @@ public class RegisterDriver extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(3);
+                showDatePickerDialog(3,"Fecha de vencimiento Tarjeta de Propiedad");
             }
         });
 
@@ -149,7 +153,7 @@ public class RegisterDriver extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(4);
+                showDatePickerDialog(4,"Fecha de vencimiento del Soat");
             }
         });
 
@@ -157,7 +161,7 @@ public class RegisterDriver extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(5);
+                showDatePickerDialog(5,"Fecha de vencimiento revisión Tecnomecanica");
             }
         });
 
@@ -177,6 +181,7 @@ public class RegisterDriver extends AppCompatActivity {
                     modelo =edtModelo.getText().toString();
                    // anio=Integer.parseInt(edtAnio.getText().toString());
                     anio=edtAnio.getText().toString();
+
                     try {
                         conduNaci =deStringADate(edtConduNaci.getText().toString());
                         vigenD = deStringADate(edtVigenD.getText().toString());
@@ -206,23 +211,33 @@ public class RegisterDriver extends AppCompatActivity {
                     if (rbNo.isChecked()==true) {
                         antece="No";
                     }
+                    Calendar cal =  Calendar.getInstance();
+                    cal.setTime(conduNaci);
+                    int anioCondu = cal.get(Calendar.YEAR);
+
                     int  year= Calendar.getInstance().get(Calendar.YEAR);
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                    String date = df.format(Calendar.getInstance().getTime());
 
 
-
-                    if(!placa.isEmpty() && !marca.isEmpty() && !modelo.isEmpty() && !anio.isEmpty()  /*&& !conduNaci.equals("")&& !categoriaD.isEmpty()&& !vigenD.equals("") && !vigenTp.equals("")&& !vigenSoat.equals("")  &&antece.isEmpty()&& !vigenTecno.equals("")*/){
+                    if(!placa.isEmpty() && !marca.isEmpty() && !modelo.isEmpty() && !anio.isEmpty()){
                         if(placa.length() == 6) {
                            if(numerop >=4) {
                                if(categoriaD == "B1") {
                                    int ano = Integer.parseInt(anio);
                                    System.out.println(ano-10);
                                   if((year-10)<=ano) {
-                                       registerUser(email, lastname, name, password, number, identi, placa, marca, modelo, ano, numerop, conduNaci, categoriaD, vigenD, vigenTp, vigenSoat, antece, vigenTecno);
-                                   }else {
+                                    if((year-anioCondu)>=18) {
+                                        registerUser(email, lastname, name, password, number, identi, placa, marca, modelo, ano, numerop, conduNaci, categoriaD, vigenD, vigenTp, vigenSoat, antece, vigenTecno);
+                                    }else{
+                                        Toast.makeText(RegisterDriver.this, "Usted debe ser mayor de edad.", Toast.LENGTH_SHORT).show();
+                                    }
+                                  }else {
                                        Toast.makeText(RegisterDriver.this, "El automovil debe ser menor a 11 años.", Toast.LENGTH_SHORT).show();
                                    }
                                    }else{
                                    Toast.makeText(RegisterDriver.this, "La licencia de conducción debe poseer la categoria B1.",Toast.LENGTH_SHORT).show();
+
                                }
                                }else{
                                 Toast.makeText(RegisterDriver.this, "El vehiculo debe tener minimo 4 puertas.",Toast.LENGTH_SHORT).show();
@@ -238,33 +253,34 @@ public class RegisterDriver extends AppCompatActivity {
         }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void showDatePickerDialog(final int campoFecha) {
+    private void showDatePickerDialog(final int campoFecha, final String msg) {
         final Calendar c = Calendar.getInstance();
 
         final int dia, mes, anio;
         dia = c.get(Calendar.DAY_OF_MONTH);
         mes = c.get(Calendar.MONTH);
         anio = c.get(Calendar.YEAR);
-        String msg="";
+
+
         DatePickerDialog newDialog = new DatePickerDialog(RegisterDriver.this, new DatePickerDialog.OnDateSetListener() {
 
-            @Override
+             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 c.set(Calendar.YEAR,year);
                 c.set(Calendar.MONTH,month);
                 c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+
                 switch (campoFecha){
-                    case 1:edtConduNaci.setText(dayOfMonth+"-"+(month+1)+"-"+year);
-                    //msg= "Fecha de Nacimiento";
+                    case 1:edtConduNaci.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                         break;
-                    case 2:edtVigenD.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                    case 2:edtVigenD.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                         break;
-                    case 3:edtVigenTp.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                    case 3:edtVigenTp.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                         break;
-                    case 4:edtVigenSoat.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                    case 4:edtVigenSoat.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                         break;
-                    case 5:edtVigenTecno.setText(dayOfMonth+"-"+(month+1)+"-"+year);
+                    case 5:edtVigenTecno.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                         break;
                 }
 
@@ -275,8 +291,8 @@ public class RegisterDriver extends AppCompatActivity {
     }
 
     public static Date deStringADate(String fechaString) throws ParseException {
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaDate = (Date)formatoFecha.parse(fechaString);
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaDate = formatoFecha.parse(fechaString);
         return fechaDate;
 
     }

@@ -1,5 +1,8 @@
 package com.example.laugerjo.providers;
 
+import android.widget.Toast;
+
+import com.example.laugerjo.activities.client.Register;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -10,7 +13,12 @@ public class authProviders {
         Aunte = FirebaseAuth.getInstance();
     }
     public Task<AuthResult> register(String email, String password){
+
+        //if(!email.equals(Aunte.getCurrentUser().getEmail())){
         return Aunte.createUserWithEmailAndPassword(email, password);
+        /*}else{
+            return null;
+        }*/
     }
 
     public Task<AuthResult> login(String email, String password){

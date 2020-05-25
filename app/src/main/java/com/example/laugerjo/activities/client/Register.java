@@ -18,13 +18,14 @@ import com.example.laugerjo.activities.driver.MapDriverActivity;
 import com.example.laugerjo.activities.driver.RegisterDriver;
 import com.example.laugerjo.includes.toolbar;
 import com.example.laugerjo.model.Client;
-import com.example.laugerjo.model.Driver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.example.laugerjo.providers.authProviders;
 import com.example.laugerjo.providers.ClientProvider;
 import com.google.firebase.auth.FirebaseAuth;
+
+
 
 public class Register extends AppCompatActivity {
     private EditText edtCorreo,edtContra,edtNombre,edtApellido,edtNumero,edtIdenti;
@@ -90,8 +91,9 @@ public class Register extends AppCompatActivity {
                 if(!name.isEmpty() && !lastname.isEmpty() && !email.isEmpty() && !password.isEmpty()&& !number.isEmpty()&& !identi.isEmpty()){
                     if(password.length() >=6){
                         if(number.length()==10) {
+
                             registerUser(email, lastname, name, password, number, identi);
-                            // Driver driver = new Driver();
+
                         }else{
                             Toast.makeText(Register.this, "El número de celular debe tener 10 caracteres.",Toast.LENGTH_SHORT).show();
                         }
@@ -131,7 +133,6 @@ public class Register extends AppCompatActivity {
                         }else{
                             Toast.makeText(Register.this, "El número de celular debe tener 10 caracteres.",Toast.LENGTH_SHORT).show();
                         }
-
                     }else{
                         Toast.makeText(Register.this, "La contraseña debe tener al menos 6 caracteres.",Toast.LENGTH_SHORT).show();
                     }
@@ -156,11 +157,14 @@ public class Register extends AppCompatActivity {
             }
         });
     }
-    private void registerUser(final String email, final String lastname,final String name ,final String password,final String number,final String identi) {
+    private void registerUser(final String email2, final String lastname,final String name ,final String password,final String number,final String identi) {
         mauthProviders.register(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
            @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-              if (task.isSuccessful()) {
+              String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+             // if(!task.isSuccessful()){
+               if (task.isSuccessful()) {
                    String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     pref = getApplicationContext().getSharedPreferences("typeUser", MODE_PRIVATE);
@@ -203,7 +207,9 @@ public class Register extends AppCompatActivity {
                     }
 
                 }
-            }
+            //}else{
+                //  Toast.makeText(Register.this,"El email ya esta registrado.",Toast.LENGTH_SHORT).show();
+              }
         });
     }
 }
