@@ -47,12 +47,14 @@ public class NotificationHelper  extends ContextWrapper {
     public  Notification.Builder getNotification(String title, String body, PendingIntent intent , Uri soundUri){
         return new Notification.Builder(getApplicationContext(),CHANNEL_ID).setContentTitle(title).
                 setContentText(body).setAutoCancel(true).setSound(soundUri).setContentIntent(intent)
-                .setSmallIcon(R.drawable.ic_car);
+                .setSmallIcon(R.drawable.ic_car)
+                .setStyle(new Notification.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
 
     public  NotificationCompat.Builder getNotificationOldAPI(String title, String body, PendingIntent intent , Uri soundUri){
         return new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID).setContentTitle(title).
                 setContentText(body).setAutoCancel(true).setSound(soundUri).setContentIntent(intent)
-                .setSmallIcon(R.drawable.ic_car);
+                .setSmallIcon(R.drawable.ic_car)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
 }

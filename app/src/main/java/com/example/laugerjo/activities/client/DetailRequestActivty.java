@@ -97,6 +97,11 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         Intent intent = new Intent(DetailRequestActivty.this , RequestDriverActivity.class);
         intent.putExtra("origin_lat",OriginLatLng.latitude);
         intent.putExtra("origin_lng",OriginLatLng.longitude);
+        intent.putExtra("origin",ExtraOrigin);
+        intent.putExtra("destination",ExtraDestination);
+        intent.putExtra("destination_lat",DestinationLatLng.latitude);
+        intent.putExtra("destination_lng",DestinationLatLng.longitude);
+
         startActivity(intent);
         finish();
     }
