@@ -57,4 +57,31 @@ public class NotificationHelper  extends ContextWrapper {
                 .setSmallIcon(R.drawable.ic_car)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public  Notification.Builder getNotificationActions(String title,
+                                                        String body ,
+                                                        Uri soundUri,
+                                                        Notification.Action acceptAction,
+                                                        Notification.Action cancelAction){
+        return new Notification.Builder(getApplicationContext(),CHANNEL_ID).setContentTitle(title).
+                setContentText(body).setAutoCancel(true).setSound(soundUri)
+                .setSmallIcon(R.drawable.ic_car)
+                .addAction(acceptAction)
+                .addAction(cancelAction)
+                .setStyle(new Notification.BigTextStyle().bigText(body).setBigContentTitle(title));
+    }
+    public  NotificationCompat.Builder getNotificationOldAPIActions(String title,
+                                                                    String body ,
+                                                                    Uri soundUri,
+                                                                    NotificationCompat.Action acceptAction,
+                                                                    NotificationCompat.Action cancelAction){
+        return new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID).setContentTitle(title).
+                setContentText(body).setAutoCancel(true).setSound(soundUri)
+                .setSmallIcon(R.drawable.ic_car)
+                .addAction(acceptAction)
+                .addAction(cancelAction)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
+    }
+
 }
