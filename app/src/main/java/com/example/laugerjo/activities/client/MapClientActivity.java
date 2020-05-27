@@ -139,7 +139,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         toolbar.show(this,"Cliente",false);
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
-       geofireProvider = new GeofireProvider();
+       geofireProvider = new GeofireProvider("active_drivers");
        TokenProvider = new TokenProvider();
         FusedLocation = LocationServices.getFusedLocationProviderClient(this);
         btnViaje = findViewById(R.id.btnViaje);

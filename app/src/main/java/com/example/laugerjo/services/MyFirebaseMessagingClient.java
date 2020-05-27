@@ -39,14 +39,14 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         String body = data.get("body");
         if(title !=null){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if(title.contains("SOlICITUD DE SERVICIO")){
+                if(title.contains("SOLICITUD DE SERVICIO")){
                     String idCLient = data.get("idClient");
                     showNotificationApiOreoActions(title,body,idCLient);
                 }else {
                     showNotificationApiOreo(title, body);
                 }
             }else{
-                if(title.contains("SOlICITUD DE SERVICIO")){
+                if(title.contains("SOLICITUD DE SERVICIO")){
                     String idCLient = data.get("idClient");
                     showNotificationActions(title,body,idCLient);
                 } else{
@@ -124,7 +124,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         Notification.Action cancelAction = new Notification.Action.Builder(
                 R.mipmap.ic_launcher,
                 "Cancelar",
-                acceptPendingIntent
+                cancelPendingIntent
         ).build();
 
 

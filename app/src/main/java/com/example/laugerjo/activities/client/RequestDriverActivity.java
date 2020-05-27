@@ -3,6 +3,7 @@ package com.example.laugerjo.activities.client;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,6 +77,7 @@ public class RequestDriverActivity extends AppCompatActivity {
     private GoogleApiProvider googleApiProvider;
 
     private ClientBookingProvider clientBookingProvider;
+    private ValueEventListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class RequestDriverActivity extends AppCompatActivity {
         animation = findViewById(R.id.animation);
         txtLookFor = findViewById(R.id.txtLookFor);
         btnCancel = findViewById(R.id.btnCancel);
-        geofireProvider = new GeofireProvider();
+        geofireProvider = new GeofireProvider("active_drivers");
 
         animation.playAnimation();
 
@@ -227,10 +229,9 @@ public class RequestDriverActivity extends AppCompatActivity {
                                     clientBookingProvider.create(clientBooking).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(RequestDriverActivity.this, "La petición se creo correctamente.", Toast.LENGTH_SHORT).show();
+                                            checkStatusClientBooking();
                                         }
                                     });
-                                   // Toast.makeText(RequestDriverActivity.this, "La notificación se envio ", Toast.LENGTH_SHORT).show();
                                 }else{
                                     Toast.makeText(RequestDriverActivity.this, "No se pudo enviar la Notificación", Toast.LENGTH_SHORT).show();
                                 }
@@ -257,5 +258,38 @@ public class RequestDriverActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void checkStatusClientBooking() {
+        listener= clientBookingProvider.getStatus(authProviders.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String status = dataSnapshot.getValue().toString();
+                    if(status.equals("accept")){
+                        Toast.makeText(RequestDriverActivity.this, "El conductor  acepto el viaje", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RequestDriverActivity.this,MapClientBookingActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else if (status.equals("cancel")){
+                        Toast.makeText(RequestDriverActivity.this, "El conductor no acepto el viaje", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RequestDriverActivity.this,MapClientActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(listener != null){
+        clientBookingProvider.getStatus(authProviders.getId()).removeEventListener(listener);}
     }
 }

@@ -28,4 +28,8 @@ public class ClientBookingProvider {
         map.put("status", status);
         return DB.child(idClientBooking).updateChildren(map);
     }
+
+    public DatabaseReference getStatus( String idClientBooking){
+        return DB.child(idClientBooking).child("status");
+    }
 }
