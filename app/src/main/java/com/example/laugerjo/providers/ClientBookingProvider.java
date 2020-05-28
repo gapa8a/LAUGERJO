@@ -32,4 +32,8 @@ public class ClientBookingProvider {
     public DatabaseReference getStatus( String idClientBooking){
         return DB.child(idClientBooking).child("status");
     }
+
+    public DatabaseReference getClientBooking( String idClientBooking){
+        return DB.child(idClientBooking);
+    }
 }

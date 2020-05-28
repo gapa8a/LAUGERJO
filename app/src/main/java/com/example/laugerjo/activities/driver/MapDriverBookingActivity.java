@@ -12,21 +12,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laugerjo.R;
+import com.example.laugerjo.activities.client.DetailRequestActivty;
+import com.example.laugerjo.providers.ClientBookingProvider;
 import com.example.laugerjo.providers.ClientProvider;
 import com.example.laugerjo.providers.GeofireProvider;
+import com.example.laugerjo.providers.GoogleApiProvider;
 import com.example.laugerjo.providers.TokenProvider;
 import com.example.laugerjo.providers.authProviders;
+import com.example.laugerjo.utils.DecodePoints;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -38,12 +44,24 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.SquareCap;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapDriverBookingActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -54,6 +72,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private com.example.laugerjo.providers.TokenProvider TokenProvider;
 
     private ClientProvider clientProvider;
+    private ClientBookingProvider clientBookingProvider;
 
     private LocationRequest locationRequest;
     private FusedLocationProviderClient FusedLocation;
@@ -67,10 +86,22 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private Marker marker;
     private LatLng currentLatlng;
 
-    private TextView txtCLientBooking;
+    private TextView txtClientBooking;
     private TextView txtEmailBooking;
 
+    private TextView txtOriginBooking;
+    private TextView txtDestinationBooking;
+    private TextView txtPriceBooking;
+
     private String extraClientId;
+    private LatLng originLatLng;
+    private LatLng destinationLatLng;
+
+    private GoogleApiProvider googleApiProvider;
+
+    private List<LatLng> PolylineList;
+    private PolylineOptions PolylineOptions;
+    private Boolean isFirstTime = true;
 
     com.google.android.gms.location.LocationCallback LocationCallback =new LocationCallback(){
         @Override
@@ -94,6 +125,11 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                                     .build()
                     ));
                     updateLocation();
+
+                    if (isFirstTime){
+                        isFirstTime = false;
+                        getClientBooking();
+                    }
                 }
             }
         }
@@ -108,20 +144,100 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         geofireProvider = new GeofireProvider("drivers_working");
         TokenProvider = new TokenProvider();
         clientProvider = new ClientProvider();
-
+        clientBookingProvider = new ClientBookingProvider();
         FusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
 
-        txtCLientBooking = findViewById(R.id.txtClientBooking);
+        txtClientBooking = findViewById(R.id.txtClientBooking);
         txtEmailBooking = findViewById(R.id.txtEmailBooking);
+        txtPriceBooking = findViewById(R.id.txtPriceBooking);
+
+
+
+        txtOriginBooking = findViewById(R.id.txtOriginClientBooking);
+        txtDestinationBooking = findViewById(R.id.txtDestinationClientBooking);
 
         extraClientId =getIntent().getStringExtra("idClient");
-        getClientBooking();
+        googleApiProvider = new GoogleApiProvider(MapDriverBookingActivity.this);
+
+        getClient();
+
     }
 
     private void getClientBooking() {
+        clientBookingProvider.getClientBooking(extraClientId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if(dataSnapshot.exists()){
+                String destination = dataSnapshot.child("destination").getValue().toString();
+                //String price = dataSnapshot.child("price").getValue().toString();
+                String origin= dataSnapshot.child("origin").getValue().toString();
+                double destinationLat = Double.parseDouble(dataSnapshot.child("destinationLat").getValue().toString());
+                double destinationLng = Double.parseDouble(dataSnapshot.child("destinationLng").getValue().toString());
+
+                double originLat = Double.parseDouble(dataSnapshot.child("originLat").getValue().toString());
+                double originLng = Double.parseDouble(dataSnapshot.child("originLng").getValue().toString());
+
+                originLatLng = new LatLng(originLat, originLng);
+                destinationLatLng = new LatLng(destinationLat,destinationLng);
+
+                txtOriginBooking.setText("Recoger en: "+origin);
+                txtDestinationBooking.setText("Destino: "+destination);
+                //txtPriceBooking.setText(price);
+
+                Mapa.addMarker(new MarkerOptions().position(originLatLng).title("Recoger Aquí").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_pin_green)));
+                drawRoute();
+            }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        }
+        );
+    }
+
+    private void drawRoute(){
+        googleApiProvider.getDirections(currentLatlng, originLatLng).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body());
+                    JSONArray jsonArray = jsonObject.getJSONArray("routes");
+                    JSONObject route = jsonArray.getJSONObject(0);
+                    JSONObject polylines = route.getJSONObject("overview_polyline");
+                    String points = polylines.getString("points");
+                    PolylineList = DecodePoints.decodePoly(points);
+                    PolylineOptions = new PolylineOptions();
+                    PolylineOptions.color(Color.DKGRAY);
+                    PolylineOptions.width(13f);
+                    PolylineOptions.startCap( new SquareCap());
+                    PolylineOptions.jointType(JointType.ROUND);
+                    PolylineOptions.addAll(PolylineList);
+                    Mapa.addPolyline(PolylineOptions);
+
+                    JSONArray legs = route.getJSONArray("legs");
+                    JSONObject leg =  legs.getJSONObject(0);
+                    JSONObject distance =  leg.getJSONObject("distance");
+                    JSONObject duration =  leg.getJSONObject("duration");
+                    String distanceText =distance.getString("text");
+                    String durationText =duration.getString("text");
+
+                }catch (Exception e){
+                    Log.d("Error","Error encontrado " +e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getClient() {
         clientProvider.getClient(extraClientId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -130,7 +246,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                     String name=dataSnapshot.child("name").getValue().toString();
                     String lastname=dataSnapshot.child("lastname").getValue().toString();
                     String fullname =name+" "+lastname;
-                    txtCLientBooking.setText(fullname);
+                    txtClientBooking.setText(fullname);
                     txtEmailBooking.setText(email);
                 }
             }

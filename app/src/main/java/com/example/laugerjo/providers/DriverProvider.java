@@ -17,5 +17,8 @@ public class DriverProvider {
         return DB.child(driver.getId()).setValue(driver);
 
     }
+    public DatabaseReference getDriver(String idDriver){
+        return DB.child(idDriver);
+    }
 
 }

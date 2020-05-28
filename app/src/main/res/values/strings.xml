@@ -50,4 +50,8 @@
     <string name="btnCancel">CANCELAR VIAJE</string>
     <string name="nombreUsuario">Nombre: </string>
     <string name="emailUsuario">Email: </string>
+    <string name="origenUsuario">Origen: </string>
+    <string name="destinoUsuario">Destino: </string>
+    <string name="precioUsuario">Precio: $ </string>
+    <string name="nombreConductor">Nombre del conductor: </string>
 </resources>
