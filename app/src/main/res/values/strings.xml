@@ -48,5 +48,6 @@
     <string name="txtDistancia">Distancia: </string>
     <string name="txtLookFor">BUSCANDO CONDUCTOR...</string>
     <string name="btnCancel">CANCELAR VIAJE</string>
-
+    <string name="nombreUsuario">Nombre: </string>
+    <string name="emailUsuario">Email: </string>
 </resources>

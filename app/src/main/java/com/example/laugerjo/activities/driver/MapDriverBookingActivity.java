@@ -19,9 +19,11 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laugerjo.R;
+import com.example.laugerjo.providers.ClientProvider;
 import com.example.laugerjo.providers.GeofireProvider;
 import com.example.laugerjo.providers.TokenProvider;
 import com.example.laugerjo.providers.authProviders;
@@ -39,6 +41,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class MapDriverBookingActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -48,6 +53,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private GeofireProvider geofireProvider;
     private com.example.laugerjo.providers.TokenProvider TokenProvider;
 
+    private ClientProvider clientProvider;
 
     private LocationRequest locationRequest;
     private FusedLocationProviderClient FusedLocation;
@@ -60,6 +66,12 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
     private Marker marker;
     private LatLng currentLatlng;
+
+    private TextView txtCLientBooking;
+    private TextView txtEmailBooking;
+
+    private String extraClientId;
+
     com.google.android.gms.location.LocationCallback LocationCallback =new LocationCallback(){
         @Override
         public void onLocationResult(LocationResult locationResult){
@@ -95,11 +107,39 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         Aunteti = new authProviders();
         geofireProvider = new GeofireProvider("drivers_working");
         TokenProvider = new TokenProvider();
+        clientProvider = new ClientProvider();
 
+        FusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
-        FusedLocation = LocationServices.getFusedLocationProviderClient(this);
+
+        txtCLientBooking = findViewById(R.id.txtClientBooking);
+        txtEmailBooking = findViewById(R.id.txtEmailBooking);
+
+        extraClientId =getIntent().getStringExtra("idClient");
+        getClientBooking();
+    }
+
+    private void getClientBooking() {
+        clientProvider.getClient(extraClientId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String email=dataSnapshot.child("email").getValue().toString();
+                    String name=dataSnapshot.child("name").getValue().toString();
+                    String lastname=dataSnapshot.child("lastname").getValue().toString();
+                    String fullname =name+" "+lastname;
+                    txtCLientBooking.setText(fullname);
+                    txtEmailBooking.setText(email);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void updateLocation(){

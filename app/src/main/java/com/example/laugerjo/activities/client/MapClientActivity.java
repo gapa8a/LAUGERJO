@@ -85,7 +85,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private Marker marker;
     private LatLng currentLatlng;
 
-    private Button btnViaje;
+
 
     private List<Marker> driversMarkers = new ArrayList<>();
 
@@ -101,7 +101,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private  LatLng destinationLatLng;
     private GoogleMap.OnCameraIdleListener cameraListener;
 
-
+    private Button btnViaje;
     com.google.android.gms.location.LocationCallback LocationCallback =new LocationCallback(){
         @Override
         public void onLocationResult(LocationResult locationResult){
@@ -135,8 +135,10 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_client);
-        Aunteti = new authProviders();
         toolbar.show(this,"Cliente",false);
+
+        Aunteti = new authProviders();
+
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
        geofireProvider = new GeofireProvider("active_drivers");

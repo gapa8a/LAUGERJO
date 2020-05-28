@@ -5,6 +5,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientProvider {
    DatabaseReference DB;
 
@@ -13,7 +16,16 @@ public class ClientProvider {
     }
 
     public Task<Void> create(Client client){
+
+        Map<String ,Object> map =new HashMap<>();
+        map.put("name",client.getName());
+        map.put("lastname",client.getLastname());
+        map.put("email",client.getEmail());
         return DB.child(client.getId()).setValue(client);
 
+    }
+
+    public DatabaseReference getClient(String idClient){
+        return DB.child(idClient);
     }
 }
