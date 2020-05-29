@@ -172,10 +172,13 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     String name = dataSnapshot.child("name").getValue().toString();
+                    String lastname=dataSnapshot.child("lastname").getValue().toString();
                     String email = dataSnapshot.child("email").getValue().toString();
                     //String price = dataSnapshot.child("price").getValue().toString();
-                    txtEmailBooking.setText(email);
-                    //txtPriceBooking.setText(price);
+                    String fullname ="Conductor: "+name+" "+lastname;
+                    txtClientBooking.setText(fullname);
+                    txtEmailBooking.setText("Email: " +email);
+                    //txtPriceBooking.setText("$"price);
 
                 }
             }

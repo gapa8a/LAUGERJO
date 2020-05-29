@@ -245,9 +245,11 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                     String email=dataSnapshot.child("email").getValue().toString();
                     String name=dataSnapshot.child("name").getValue().toString();
                     String lastname=dataSnapshot.child("lastname").getValue().toString();
-                    String fullname =name+" "+lastname;
+                    //String price = dataSnapshot.child("price").getValue().toString();
+                    String fullname ="Cliente: "+name+" "+lastname;
                     txtClientBooking.setText(fullname);
-                    txtEmailBooking.setText(email);
+                    txtEmailBooking.setText("Email: "+email);
+                    //txtPriceBooking.setText("$"price);
                 }
             }
 
