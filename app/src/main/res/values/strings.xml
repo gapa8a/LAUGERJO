@@ -54,4 +54,7 @@
     <string name="destinoUsuario">Destino: </string>
     <string name="precioUsuario">Precio: $ </string>
     <string name="nombreConductor">Nombre del conductor: </string>
+    <string name="btnIniciarViaje">Iniciar viaje </string>
+    <string name="btnFinViaje">Finalizar viaje </string>
+    <string name="txtEstado">Estado </string>
 </resources>

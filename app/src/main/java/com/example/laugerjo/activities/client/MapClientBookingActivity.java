@@ -3,6 +3,7 @@ package com.example.laugerjo.activities.client;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,6 +81,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
     private TextView txtOriginBooking;
     private TextView txtDestinationBooking;
     private TextView txtPriceBooking;
+    private TextView txtStatusBooking;
 
 
     private String origin;
@@ -95,6 +97,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
     private PolylineOptions PolylineOptions;
     private ValueEventListener listener;
     private String midDriver;
+    private ValueEventListener listenerStatus;
 
 
     @Override
@@ -122,10 +125,51 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
         txtEmailBooking = findViewById(R.id.txtEmailDriverBooking);
         txtPriceBooking = findViewById(R.id.txtPriceBooking);
 
+        txtStatusBooking = findViewById(R.id.txtStatusBooking);
         txtOriginBooking = findViewById(R.id.txtOriginDriverBooking);
         txtDestinationBooking = findViewById(R.id.txtDestinationDriverBooking);
 
+        getStatus();
     getClientBooking();
+    }
+
+    private void getStatus() {
+        listenerStatus= clientBookingProvider.getStatus(Aunteti.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String status =dataSnapshot.getValue().toString();
+
+                    if(status.equals("accept")){
+                        txtStatusBooking.setText("Estado: Aceptado");
+                    }
+                    if(status.equals("start")){
+                        txtStatusBooking.setText("Estado: Viaje Iniciado");
+                        startBooking();
+                    }else if (status.equals("finish")){
+                        txtStatusBooking.setText("Estado: Finalizado");
+                        finishBooking();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void finishBooking() {
+        Intent intent = new Intent(MapClientBookingActivity.this,CalificationDriverActivity.class );
+        startActivity(intent);
+        finish();
+    }
+
+    private void startBooking() {
+        Mapa.clear();
+        Mapa.addMarker(new MarkerOptions().position(destinationLatLng).title("Destino").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_pin_green)));
+        drawRoute(destinationLatLng);
     }
 
     @Override
@@ -133,6 +177,9 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
         super.onDestroy();
         if(listener!=null){
             geofireProvider.getDriverLocation(midDriver).removeEventListener(listener);
+        }
+        if(listenerStatus != null){
+            clientBookingProvider.getStatus(Aunteti.getId()).removeEventListener(listenerStatus);
         }
     }
 
@@ -155,7 +202,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
                     txtOriginBooking.setText("Recoger en: "+origin);
                     txtDestinationBooking.setText("Destino: "+destination);
                     //txtPriceBooking.setText(price);
-                    Mapa.addMarker(new MarkerOptions().position(originLatLng).title("Recoger Aquí").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_pin_green)));
+                    Mapa.addMarker(new MarkerOptions().position(originLatLng).title("Recoger Aquí").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_pin_red)));
                     getDriver(idDriver);
                     getDriverLocation(idDriver);
                 }
@@ -209,7 +256,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
                         Mapa.animateCamera(CameraUpdateFactory.newCameraPosition(
                                 new CameraPosition.Builder().target(driverLatlng).zoom(14f).build()
                         ));
-                        drawRoute();
+                        drawRoute(originLatLng);
 
                     }
                 }
@@ -233,8 +280,8 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
 
     }
 
-    private void drawRoute(){
-        googleApiProvider.getDirections(driverLatlng, originLatLng).enqueue(new Callback<String>() {
+    private void drawRoute(LatLng latLng){
+        googleApiProvider.getDirections(driverLatlng, latLng).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 try {
