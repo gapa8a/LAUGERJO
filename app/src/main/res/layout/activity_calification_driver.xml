@@ -25,7 +25,7 @@
             app:lottie_imageAssetsFolder="assets"
             app:lottie_fileName="782-check-mark-success.json"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
+            app:lottie_loop="false"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"/>
         <TextView
@@ -77,18 +77,19 @@
             android:textSize="17sp"
             android:layout_marginTop="5dp"/>
         <RatingBar
+            android:id="@+id/rbCalification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp" />
     </LinearLayout>
     <Button
-        android:id="@+id/btnCalificationClient"
+        android:id="@+id/btnCalification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         style="@style/loginButton"
         android:layout_margin="20dp"
-        android:text="@string/btnCalificationClient"
+        android:text="@string/btnCalificationDriver"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

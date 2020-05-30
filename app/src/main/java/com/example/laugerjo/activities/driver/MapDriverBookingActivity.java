@@ -203,12 +203,14 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
     private void finishBooking() {
         clientBookingProvider.updateStatus(extraClientId,"finish");
+        clientBookingProvider.updateIdHistoryBooking(extraClientId);
         sendNotification("Viaje Finalizado");
         if (FusedLocation != null){
             FusedLocation.removeLocationUpdates(LocationCallback);
         }
         geofireProvider.removeLocation(Aunteti.getId());
         Intent  intent  = new Intent(MapDriverBookingActivity.this,CalificationClientActivity.class);
+        intent.putExtra("idClient",extraClientId);
         startActivity(intent);
         finish();
     }

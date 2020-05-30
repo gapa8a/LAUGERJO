@@ -1,6 +1,7 @@
 package com.example.laugerjo.model;
 
-public class ClientBooking {
+public class HistoryBooking {
+
     String idHistoryBooking;
     String idClient;
     String idDriver;
@@ -14,26 +15,15 @@ public class ClientBooking {
     double originLng;
     double destinationLat;
     double destinationLng;
+    double calificationClient;
+    double calificationDriver;
+    long timestamp;
 
-    public ClientBooking (){
+    public HistoryBooking (){
 
     }
 
-    public ClientBooking(String idClient, String idDriver, String destination, String origin, String time, String km, String status, double originLat, double originLng, double destinationLat, double destinationLng) {
-        this.idClient = idClient;
-        this.idDriver = idDriver;
-        this.destination = destination;
-        this.origin = origin;
-        this.time = time;
-        this.km = km;
-        this.status = status;
-        this.originLat = originLat;
-        this.originLng = originLng;
-        this.destinationLat = destinationLat;
-        this.destinationLng = destinationLng;
-    }
-
-    public ClientBooking(String idHistoryBooking, String idClient, String idDriver, String destination, String origin, String time, String km,/*String price,*/ String status, double originLat, double originLng, double destinationLat, double destinationLng) {
+    public HistoryBooking( String idHistoryBooking ,String idClient, String idDriver, String destination, String origin, String time, String km,/*String price,*/ String status, double originLat, double originLng, double destinationLat, double destinationLng) {
         this.idHistoryBooking = idHistoryBooking;
         this.idClient = idClient;
         this.idDriver = idDriver;
@@ -49,12 +39,36 @@ public class ClientBooking {
         this.destinationLng = destinationLng;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public String getIdHistoryBooking() {
         return idHistoryBooking;
     }
 
     public void setIdHistoryBooking(String idHistoryBooking) {
         this.idHistoryBooking = idHistoryBooking;
+    }
+
+    public double getCalificationClient() {
+        return calificationClient;
+    }
+
+    public void setCalificationClient(double calificationClient) {
+        this.calificationClient = calificationClient;
+    }
+
+    public double getCalificationDriver() {
+        return calificationDriver;
+    }
+
+    public void setCalificationDriver(double calificationDriver) {
+        this.calificationDriver = calificationDriver;
     }
 
     public String getIdClient() {
@@ -105,7 +119,7 @@ public class ClientBooking {
         this.km = km;
     }
 
-  /*  public String getPrice() {
+      /*  public String getPrice() {
         return price;
     }
 
@@ -117,7 +131,6 @@ public class ClientBooking {
     public String getStatus() {
         return status;
     }
-
 
     public void setStatus(String status) {
         this.status = status;
@@ -154,5 +167,4 @@ public class ClientBooking {
     public void setDestinationLng(double destinationLng) {
         this.destinationLng = destinationLng;
     }
-
 }
