@@ -57,4 +57,8 @@
     <string name="btnIniciarViaje">Iniciar viaje </string>
     <string name="btnFinViaje">Finalizar viaje </string>
     <string name="txtEstado">Estado </string>
+    <string name="txtViajeF">VIAJE FINALIZADO</string>
+    <string name="txtPrice">Precio:</string>
+    <string name="btnCalificationDriver">Calificar Conductor</string>
+    <string name="btnCalificationClient">Calificar Cliente</string>
 </resources>
