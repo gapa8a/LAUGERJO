@@ -2,17 +2,20 @@ package com.example.laugerjo.services;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.laugerjo.R;
+import com.example.laugerjo.activities.driver.NotificationBookingActivity;
 import com.example.laugerjo.channel.NotificationHelper;
 import com.example.laugerjo.receivers.AcceptReceiver;
 import com.example.laugerjo.receivers.CancelReceiver;
@@ -40,21 +43,54 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         if(title !=null){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if(title.contains("SOLICITUD DE SERVICIO")){
-                    String idCLient = data.get("idClient");
-                    showNotificationApiOreoActions(title,body,idCLient);
+                    String idClient = data.get("idClient");
+                    String origin = data.get("origin");
+                    String destination = data.get("destination");
+                    String min = data.get("min");
+                    String distance = data.get("distance");
+                    //String price = data.get("price");
+
+                    showNotificationApiOreoActions(title,body,idClient);
+                    showNotificationActivity(idClient,origin,destination,min,distance/*,price*/);
                 }else {
                     showNotificationApiOreo(title, body);
                 }
             }else{
                 if(title.contains("SOLICITUD DE SERVICIO")){
-                    String idCLient = data.get("idClient");
-                    showNotificationActions(title,body,idCLient);
+                    String idClient = data.get("idClient");
+                    String origin = data.get("origin");
+                    String destination = data.get("destination");
+                    String min = data.get("min");
+                    String distance = data.get("distance");
+                    //String price = data.get("price");
+                    showNotificationActions(title,body,idClient);
+                    showNotificationActivity(idClient,origin,destination,min,distance/*,price*/);
                 } else{
                     showNotification(title,body);
                 }
 
             }
         }
+    }
+
+    private void showNotificationActivity(String idClient, String origin, String destination, String min, String distance/*,String price*/) {
+        PowerManager pm = (PowerManager)getBaseContext().getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn();
+        if(!isScreenOn){
+            PowerManager.WakeLock wakeLock = pm.newWakeLock(
+              PowerManager.PARTIAL_WAKE_LOCK |PowerManager.ACQUIRE_CAUSES_WAKEUP| PowerManager.ON_AFTER_RELEASE,"AppName:MyLock"
+            );
+            wakeLock.acquire(10000);
+        }
+        Intent intent = new Intent(getBaseContext(), NotificationBookingActivity.class);
+        intent.putExtra("idClient",idClient);
+        intent.putExtra("origin",origin);
+        intent.putExtra("destination",destination);
+        //intent.putExtra("price",price);
+        intent.putExtra("min",min);
+        intent.putExtra("distance",distance);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void showNotification(String title,String body) {

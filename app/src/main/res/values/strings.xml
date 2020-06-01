@@ -61,4 +61,7 @@
     <string name="txtPrice">Precio:</string>
     <string name="btnCalificationDriver">Calificar Conductor</string>
     <string name="btnCalificationClient">Calificar Cliente</string>
+    <string name="txtTiempoL">Tiempo de llegada</string>
+    <string name="bntAceptar">Aceptar</string>
+    <string name="bntRechazar">Rechazar</string>
 </resources>

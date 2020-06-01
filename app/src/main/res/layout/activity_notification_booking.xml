@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".activities.driver.NotificationBookingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/mapa"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtOrigen"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/txtOrigin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cra 28 #47-60"
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtDestino"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/txtDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cra 28 #47-60"
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtPrice"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/txtPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$10.000"
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:layout_marginTop="5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtTiempoL"
+
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/txtMin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 0 Min"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtDistancia"
+
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/txtDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 0 Km"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp">
+
+        <Button
+            android:id="@+id/btnAcceptBooking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bntAceptar"
+            android:backgroundTint="@color/green"
+            style="@style/loginButton"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+           />
+        <Button
+            android:id="@+id/btnCancelBooking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bntRechazar"
+            android:layout_weight="1"
+            style="@style/loginButton"
+            android:layout_marginLeft="5dp"
+            android:backgroundTint="@color/red"/>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

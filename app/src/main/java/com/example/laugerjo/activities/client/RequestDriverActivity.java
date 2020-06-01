@@ -196,7 +196,7 @@ public class RequestDriverActivity extends AppCompatActivity {
     }
 
 
-    private void sendNotification(final String time , final String km) {
+    private void sendNotification(final String time , final String km/*, final String price */) {
         tokenProvider.getToken(idDriverFound).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -206,8 +206,14 @@ public class RequestDriverActivity extends AppCompatActivity {
                     map.put("title","SOLICITUD DE SERVICIO A " +time+" DE TU POSICIÓN");
                     map.put("body","Un cliente esta solicitando un servicio a una distancia de " +km+ "\n"+
                             "Recoger en: " +extraOrigin+ "\n" +
-                            "Destino: "+extraDestination);
+                            "Destino: "+extraDestination+
+                            "Precio: "/*+price*/ );
                     map.put("idClient",authProviders.getId());
+                    map.put("origin",extraOrigin);
+                    map.put("destination",extraDestination);
+                    //map.put("price",extraPrice);
+                    map.put("min",time);
+                    map.put("distance",km);
                     FCMBody fcmBody = new FCMBody(token,"high","4500s",map);
                     notificationProvider.sendNotification(fcmBody).enqueue(new Callback<FCMResponse>() {
                         @Override
@@ -220,6 +226,7 @@ public class RequestDriverActivity extends AppCompatActivity {
                                             extraOrigin,
                                             time,
                                             km,
+                                            /*price,*/
                                             "create",
                                             extraOriginLat,
                                             extraOriginLng,
