@@ -1,6 +1,7 @@
 package com.example.laugerjo.services;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -52,7 +53,11 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
 
                     showNotificationApiOreoActions(title,body,idClient);
                     showNotificationActivity(idClient,origin,destination,min,distance/*,price*/);
-                }else {
+                }else if(title.contains("VIAJE CANCELADO")){
+                    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    manager.cancel(2);
+                    showNotificationApiOreo(title, body);
+                }else{
                     showNotificationApiOreo(title, body);
                 }
             }else{
@@ -65,7 +70,12 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
                     //String price = data.get("price");
                     showNotificationActions(title,body,idClient);
                     showNotificationActivity(idClient,origin,destination,min,distance/*,price*/);
-                } else{
+                }else if(title.contains("VIAJE CANCELADO")){
+                    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    manager.cancel(2);
+                    showNotification(title, body);
+                }
+                else{
                     showNotification(title,body);
                 }
 

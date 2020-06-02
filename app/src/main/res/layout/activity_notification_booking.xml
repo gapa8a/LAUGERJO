@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".activities.driver.NotificationBookingActivity">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -114,8 +118,16 @@
                     android:text=" 0 Km"/>
             </LinearLayout>
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/txtCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            android:layout_marginTop="25dp"/>
     </LinearLayout>
+    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
