@@ -22,6 +22,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -103,7 +105,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private TextView txtOriginBooking;
     private TextView txtDestinationBooking;
     private TextView txtPriceBooking;
-
+    private ImageView imgClientBooking;
     private String extraClientId;
     private LatLng originLatLng;
     private LatLng destinationLatLng;
@@ -174,6 +176,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
         btnStartBooking=findViewById(R.id.btnStartBooking);
         btnFinishBooking=findViewById(R.id.btnFinishBooking);
+        imgClientBooking = findViewById(R.id.imgViewClientBooking);
 
         //btnStartBooking.setEnabled(false);
 
@@ -316,6 +319,11 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                     String name=dataSnapshot.child("name").getValue().toString();
                     String lastname=dataSnapshot.child("lastname").getValue().toString();
                     //String price = dataSnapshot.child("price").getValue().toString();
+                    String image="";
+                    if(dataSnapshot.hasChild("image")){
+                         image=dataSnapshot.child("image").getValue().toString();
+                        Picasso.with(MapDriverBookingActivity.this).load(image).into(imgClientBooking);
+                    }
                     String fullname ="Cliente: "+name+" "+lastname;
                     txtClientBooking.setText(fullname);
                     txtEmailBooking.setText("Email: "+email);

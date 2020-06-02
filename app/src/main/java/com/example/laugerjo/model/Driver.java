@@ -16,6 +16,11 @@ public class Driver extends Users {
     Date vigenciaSoat;
     String antecedentes;
     Date vigenciaTecno;
+    String  image;
+
+    public Driver(){
+
+    }
 
     public Driver(String id, String email, String lastname, String name, String password, String number, String identi, String placa, String marca, String modelo,int año, int puertas, Date fechaNa, String categoriaD, Date vigenciaDriver, Date vigenciaTarjetap, Date vigenciaSoat, String antecedentes, Date vigenciaTecno) {
         super(id, email, lastname, name, password, number, identi);
@@ -33,8 +38,13 @@ public class Driver extends Users {
         this.vigenciaTecno = vigenciaTecno;
     }
 
+    public String getImage() {
+        return image;
+    }
 
-
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getPlaca() {
         return placa;

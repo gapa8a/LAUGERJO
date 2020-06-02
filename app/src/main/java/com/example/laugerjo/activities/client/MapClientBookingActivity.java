@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.laugerjo.R;
@@ -40,6 +41,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -83,7 +85,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
     private TextView txtPriceBooking;
     private TextView txtStatusBooking;
 
-
+    private ImageView imgDriverBooking;
     private String origin;
     private  LatLng originLatLng;
 
@@ -128,7 +130,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
         txtStatusBooking = findViewById(R.id.txtStatusBooking);
         txtOriginBooking = findViewById(R.id.txtOriginDriverBooking);
         txtDestinationBooking = findViewById(R.id.txtDestinationDriverBooking);
-
+        imgDriverBooking = findViewById(R.id.imgViewClientBooking);
         getStatus();
     getClientBooking();
     }
@@ -221,6 +223,11 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
                     String name = dataSnapshot.child("name").getValue().toString();
                     String lastname=dataSnapshot.child("lastname").getValue().toString();
                     String email = dataSnapshot.child("email").getValue().toString();
+                    String image="";
+                    if(dataSnapshot.hasChild("image")){
+                        image=dataSnapshot.child("image").getValue().toString();
+                        Picasso.with(MapClientBookingActivity.this).load(image).into(imgDriverBooking);
+                    }
                     //String price = dataSnapshot.child("price").getValue().toString();
                     String fullname ="Conductor: "+name+" "+lastname;
                     txtClientBooking.setText(fullname);

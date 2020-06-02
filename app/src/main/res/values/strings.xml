@@ -64,4 +64,6 @@
     <string name="txtTiempoL">Tiempo de llegada</string>
     <string name="bntAceptar">Aceptar</string>
     <string name="bntRechazar">Rechazar</string>
+    <string name="bntActualizar">ACTUALIZAR PERFIL</string>
+    <string name="bntActualizarPer">Editar Perfil</string>
 </resources>

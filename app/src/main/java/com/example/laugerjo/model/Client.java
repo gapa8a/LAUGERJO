@@ -8,6 +8,7 @@ public class Client extends Users{
     String password;
     String number;
     String identi;
+    String image;
 
 
 
@@ -19,6 +20,27 @@ public class Client extends Users{
         this.password = password;
         this.number = number;
         this.identi = identi;
+    }
+
+
+    public Client(String id, String email, String lastname, String name, String password, String number,String identi, String image) {
+        this.id = id;
+        this.email = email;
+        this.lastname = lastname;
+        this.name = name;
+        this.password = password;
+        this.number = number;
+        this.identi = identi;
+        this.image = image;
+
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Client() {

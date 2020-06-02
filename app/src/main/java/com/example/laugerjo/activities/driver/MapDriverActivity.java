@@ -25,6 +25,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.laugerjo.R;
+import com.example.laugerjo.activities.client.MapClientActivity;
+import com.example.laugerjo.activities.client.UpdateProfileActivity;
 import com.example.laugerjo.activities.pantallaInicial;
 import com.example.laugerjo.includes.toolbar;
 import com.example.laugerjo.providers.GeofireProvider;
@@ -300,6 +302,10 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         if(item.getItemId()== R.id.action_logout){
             disconnect(); // esto no deberia ir aquí sin no en el metodo logout
             logout();
+        }
+        if(item.getItemId()== R.id.action_update){
+            Intent intent = new Intent(MapDriverActivity.this, UpdateProfileDriverActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

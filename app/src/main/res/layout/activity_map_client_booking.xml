@@ -47,7 +47,7 @@
                     android:id="@+id/imgViewClientBooking"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@mipmap/icon_user"></ImageView>
+                    android:src="@drawable/profile"></ImageView>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
