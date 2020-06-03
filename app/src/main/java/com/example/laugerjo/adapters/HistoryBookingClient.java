@@ -34,7 +34,7 @@ public class HistoryBookingClient extends FirebaseRecyclerAdapter <HistoryBookin
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull  final ViewHolder holder, int position, @NonNull HistoryBooking historyBooking) {
+    protected void onBindViewHolder(@NonNull  final HistoryBookingClient.ViewHolder holder, int position, @NonNull HistoryBooking historyBooking) {
         holder.txtOrigin.setText(historyBooking.getOrigin());
         holder.txtDestination.setText(historyBooking.getDestination());
         holder.txtCalification.setText( String.valueOf(historyBooking.getCalificationClient()) );
@@ -67,7 +67,7 @@ public class HistoryBookingClient extends FirebaseRecyclerAdapter <HistoryBookin
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_history_booking,parent,false);
-        return new ViewHolder(view);
+        return new HistoryBookingClient.ViewHolder(view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

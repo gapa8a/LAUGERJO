@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.laugerjo.R;
+import com.example.laugerjo.activities.client.HistoryBookingClientActivity;
 import com.example.laugerjo.activities.client.MapClientActivity;
 import com.example.laugerjo.activities.client.UpdateProfileActivity;
 import com.example.laugerjo.activities.pantallaInicial;
@@ -305,6 +306,10 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         }
         if(item.getItemId()== R.id.action_update){
             Intent intent = new Intent(MapDriverActivity.this, UpdateProfileDriverActivity.class);
+            startActivity(intent);
+        }
+        if(item.getItemId()== R.id.action_history){
+            Intent intent = new Intent(MapDriverActivity.this, HistoryBookingDriverActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
