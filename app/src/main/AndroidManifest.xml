@@ -20,8 +20,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.driver.UpdateProfileDriverActivity"
-            android:parentActivityName=".activities.driver.MapDriverActivity"></activity>
+        <activity android:name=".activities.client.HistoryBookingClientActivity"
+            android:parentActivityName=".activities.client.MapClientActivity" ></activity>
+        <activity
+            android:name=".activities.driver.UpdateProfileDriverActivity"
+            android:parentActivityName=".activities.driver.MapDriverActivity" />
         <activity
             android:name=".activities.client.UpdateProfileActivity"
             android:parentActivityName=".activities.client.MapClientActivity" />
