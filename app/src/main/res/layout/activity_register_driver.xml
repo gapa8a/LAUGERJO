@@ -13,13 +13,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="@dimen/loginViewsMargin"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
+        <com.github.florent37.shapeofview.shapes.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:elevation="4dp"
+            app:shape_arc_cropDirection="outside"
+            app:shape_arc_height="15dp"
+            app:shape_arc_position="bottom">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"></View>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DATOS DEL CONDUCTOR"
+                android:textAlignment="center"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/whiteTextColor"
+                android:textSize="20sp"
+                />
+
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_arrow_back"
+                android:layout_gravity="left|top"
+                app:civ_circle_background_color="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"/>
+
+
+        </com.github.florent37.shapeofview.shapes.ArcView>
 
         <!-- <TextView
              style="@style/headerTextPrimary"
@@ -37,11 +73,15 @@
             android:layout_marginTop="30dp"
             android:hint="@string/rdplaca"
             android:inputType="text"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:maxLines="1" />
 
         <EditText
             android:id="@+id/edtMarca"
             style="@style/modifiedEditText"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:hint="@string/rdmarca"
             android:inputType="text"
             android:maxLines="1" />
@@ -50,6 +90,8 @@
         <EditText
             android:id="@+id/edtModelo"
             style="@style/modifiedEditText"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:hint="@string/rdmodelo"
             android:inputType="text"
             android:maxLines="1" />
@@ -93,6 +135,8 @@
         <EditText
             android:id="@+id/edtAnio"
             style="@style/modifiedEditText"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:hint="@string/rdano"
             android:inputType="number"
             android:maxLines="1" />
@@ -104,6 +148,8 @@
             android:hint="@string/rdfechaNa"
             android:inputType="date"
             android:clickable="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:focusable="false"
             android:maxLines="1" />
 
@@ -149,6 +195,8 @@
             android:hint="@string/rdvigeniciaDriver"
             android:inputType="date"
             android:clickable="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:focusable="false"
             android:maxLines="1" />
 
@@ -159,6 +207,8 @@
             android:hint="@string/rdvigenciaTarjetap"
             android:inputType="date"
             android:clickable="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:focusable="false"
             android:maxLines="1" />
 
@@ -168,6 +218,8 @@
             android:hint="@string/rdvigenciaSoat"
             android:inputType="date"
             android:clickable="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:focusable="false"
             android:maxLines="1" />
 
@@ -207,6 +259,8 @@
             android:hint="@string/rdvigenciaTecno"
             android:inputType="date"
             android:clickable="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:focusable="false"
             android:maxLines="1" />
 

@@ -12,11 +12,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="@dimen/loginViewsMargin"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <com.github.florent37.shapeofview.shapes.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:elevation="4dp"
+            app:shape_arc_cropDirection="outside"
+            app:shape_arc_height="15dp"
+            app:shape_arc_position="bottom">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"></View>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="REGISTRO DE USUARIO"
+                android:textAlignment="center"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/whiteTextColor"
+                android:textSize="20sp"
+                />
+
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_arrow_back"
+                android:layout_gravity="left|top"
+                app:civ_circle_background_color="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"/>
+
+
+        </com.github.florent37.shapeofview.shapes.ArcView>
 
        <!-- <TextView
             style="@style/headerTextPrimary"
@@ -33,6 +69,8 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/nombre"
                 android:inputType="text"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:maxLines="1"
                 android:id="@+id/edtNombre"/>
 
@@ -40,12 +78,16 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/apellido"
                 android:inputType="text"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:maxLines="1"
                 android:id="@+id/edtApellido"/>
 
             <EditText
                 style="@style/modifiedEditText"
                 android:hint="@string/login_email_hint"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:id="@+id/edtCorreo"/>
@@ -54,6 +96,8 @@
             <EditText
                 style="@style/modifiedEditText"
                 android:hint="@string/login_password_hint"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:id="@+id/edtContra"/>
@@ -62,11 +106,15 @@
             android:hint="@string/login_number_hint"
             android:inputType="number"
             android:maxLines="1"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:id="@+id/edtNumero"/>
         <EditText
             style="@style/modifiedEditText"
             android:hint="@string/login_identi_hint"
             android:inputType="number"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:maxLines="1"
             android:id="@+id/edtIdenti"/>
 

@@ -20,7 +20,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configuración</string>
-    <string name="text">Se enviara al correo que escriba a continuación , la recuperación de la contraseña.</string>
+    <string name="text">Se enviara al correo que escriba a continuación , un metodo para  cambiar la contraseña.</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_CerrarSes">Cerrar Sesión</string>

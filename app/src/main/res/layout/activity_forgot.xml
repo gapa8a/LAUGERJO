@@ -13,32 +13,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="@dimen/loginViewsMargin"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
+        <com.github.florent37.shapeofview.shapes.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:elevation="4dp"
+            app:shape_arc_cropDirection="outside"
+            app:shape_arc_height="15dp"
+            app:shape_arc_position="bottom">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"></View>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RECUPERAR CONTRASEÑA"
+                android:textAlignment="center"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/whiteTextColor"
+                android:textSize="20sp"
+                />
+
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_arrow_back"
+                android:layout_gravity="left|top"
+                app:civ_circle_background_color="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:textSize="15dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_gravity="center"
+                android:text="@string/text"
+                android:textColor="@color/whiteTextColor"/>
+
+        </com.github.florent37.shapeofview.shapes.ArcView>
 
        <!-- <TextView
             style="@style/headerTextPrimary"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:text="@string/Forgot" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:textSize="15dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:text="@string/text"
-            android:textColor="@color/black"/>
+
 
         <EditText
             android:id="@+id/edtRecuperar"
             style="@style/modifiedEditText"
             android:layout_marginTop="150dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:hint="@string/login_email_hint"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
