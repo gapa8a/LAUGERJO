@@ -1,6 +1,7 @@
 package com.example.laugerjo.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.laugerjo.R;
+import com.example.laugerjo.activities.client.HistoryBookingDetailClientActivity;
+import com.example.laugerjo.activities.driver.HistoryBookingDetailDriverActivity;
 import com.example.laugerjo.model.HistoryBooking;
 import com.example.laugerjo.providers.ClientProvider;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -33,6 +36,8 @@ public HistoryBookingDriver(FirebaseRecyclerOptions<HistoryBooking> options, Con
 
 @Override
 protected void onBindViewHolder(@NonNull final HistoryBookingDriver.ViewHolder holder, int position, @NonNull HistoryBooking historyBooking) {
+        final String id = getRef(position).getKey();
+
         holder.txtOrigin.setText(historyBooking.getOrigin());
         holder.txtDestination.setText(historyBooking.getDestination());
         holder.txtCalification.setText( String.valueOf(historyBooking.getCalificationDriver()) );
@@ -58,6 +63,14 @@ public void onCancelled(@NonNull DatabaseError databaseError) {
 
         }
         });
+    holder.mView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(mContext, HistoryBookingDetailDriverActivity.class);
+            intent.putExtra("idHistoryBooking",id);
+            mContext.startActivity(intent);
+        }
+    });
 
         }
 
@@ -71,8 +84,11 @@ public HistoryBookingDriver.ViewHolder onCreateViewHolder(@NonNull ViewGroup par
 public class ViewHolder extends RecyclerView.ViewHolder{
     private TextView txtFullName,txtOrigin,txtDestination,txtCalification,txtPrice;
     private ImageView imgHistoryBooking;
+    private View mView;
+
     public ViewHolder(View view){
         super(view);
+        mView=view;
         txtFullName = view.findViewById(R.id.txtFullName);
         txtOrigin = view.findViewById(R.id.txtOrigin);
         txtDestination = view.findViewById(R.id.txtDestination);

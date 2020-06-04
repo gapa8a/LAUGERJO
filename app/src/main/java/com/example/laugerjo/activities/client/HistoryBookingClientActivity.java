@@ -26,7 +26,7 @@ public class HistoryBookingClientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_booking_client);
-        toolbar.show(this,"Historial de viajes",true);
+        toolbar.show(this,"",true);
 
         recyclerView = findViewById(R.id.rcvHistoryBooking);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

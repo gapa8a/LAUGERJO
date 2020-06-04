@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +48,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
 
     private String ExtraOrigin;
     private String ExtraDestination;
+    private CircleImageView  circleImageBack;
 
     private LatLng OriginLatLng;
     private LatLng DestinationLatLng;
@@ -63,7 +65,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_request_activty);
-        toolbar.show(this,"Viaje actual",true);
+       // toolbar.show(this,"Viaje actual",true);
         Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
 
@@ -85,6 +87,14 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         buttonRequest = findViewById(R.id.btnRequestNow);
         txtOrigin.setText(ExtraOrigin);
         txtDestination.setText(ExtraDestination);
+        circleImageBack =findViewById(R.id.circleImageBack);
+        circleImageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailRequestActivty.this, MapClientActivity.class);
+                startActivity(intent);
+            }
+        });
      buttonRequest.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
