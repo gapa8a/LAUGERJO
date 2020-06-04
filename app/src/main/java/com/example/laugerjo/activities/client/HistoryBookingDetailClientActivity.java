@@ -61,7 +61,7 @@ public class HistoryBookingDetailClientActivity extends AppCompatActivity {
                     toolbar.show(HistoryBookingDetailClientActivity.this,"Registro de Usuario",true);
                     //txtPlate.setText(historyBooking.getPlate);
                     if(dataSnapshot.hasChild("calificationDriver")){
-                        txtCalification.setText("La clasificación que diste es: "+historyBooking.getCalificationDriver());
+                        txtCalification.setText("Calificación recibida: "+historyBooking.getCalificationDriver());
 
                     }
 

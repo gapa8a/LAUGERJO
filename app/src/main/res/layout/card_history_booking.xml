@@ -11,8 +11,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgHistoryBooking"
+        app:civ_border_width="5dp"
+        app:civ_border_color="#F0F0F0"
         android:layout_width="150dp"
         android:layout_height="250dp"
         android:src="@drawable/profile"
