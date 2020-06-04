@@ -23,6 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"></View>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:layout_gravity="left|top"
+            app:civ_circle_background_color="@color/colorPrimaryDark"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"/>
     </com.github.florent37.shapeofview.shapes.ArcView>
     <LinearLayout
         style="@style/linearParent"
@@ -96,6 +105,7 @@
             />
 
     </LinearLayout>
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
