@@ -135,14 +135,14 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         isDriverWorking();
 
     }
-
+/*
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if(listener !=null){
             geofireProvider.isDriverWorking(Aunteti.getId()).removeEventListener(listener);
         }
-    }
+    }*/
 
     private void isDriverWorking() {
        listener = geofireProvider.isDriverWorking(Aunteti.getId()).addValueEventListener(new ValueEventListener() {
@@ -235,7 +235,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         return isActive;
     }
 
-    private void disconnect(){
+    public void disconnect(){
 
         if(FusedLocation !=null){
             btnConnect.setText("Conectarse");

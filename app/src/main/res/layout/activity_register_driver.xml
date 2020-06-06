@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activities.driver.RegisterDriver"
     android:background="@color/colorPrimary">
-    <include layout="@layout/toolbar" ></include>
 
+
+        <include layout="@layout/toolbar" ></include>
     <LinearLayout
         style="@style/linearParent"
         android:layout_width="match_parent"
@@ -280,5 +281,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

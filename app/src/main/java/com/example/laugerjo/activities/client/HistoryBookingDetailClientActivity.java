@@ -61,13 +61,13 @@ public class HistoryBookingDetailClientActivity extends AppCompatActivity {
                     toolbar.show(HistoryBookingDetailClientActivity.this,"Registro de Usuario",true);
                     //txtPlate.setText(historyBooking.getPlate);
                     if(dataSnapshot.hasChild("calificationDriver")){
-                        txtCalification.setText("Calificación recibida: "+historyBooking.getCalificationDriver());
+                        txtCalification.setText("Calificación recibida: "+historyBooking.getCalificationClient());
 
                     }
 
-                    if(dataSnapshot.hasChild("calificationClient")){
+                    if(dataSnapshot.hasChild("calificationDriver")){
 
-                        rb.setRating((float)historyBooking.getCalificationClient());
+                        rb.setRating((float)historyBooking.getCalificationDriver());
 
                     }
 

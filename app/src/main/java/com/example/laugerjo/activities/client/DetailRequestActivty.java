@@ -48,6 +48,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
 
     private String ExtraOrigin;
     private String ExtraDestination;
+    private String ExtraPrice;
     private CircleImageView  circleImageBack;
 
     private LatLng OriginLatLng;
@@ -58,7 +59,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
     private List<LatLng> PolylineList;
     private PolylineOptions PolylineOptions;
 
-    private TextView txtOrigin,txtDestination,txtTiempoV,txtDistancia;
+    private TextView txtOrigin,txtDestination,txtTiempoV,txtDistancia,txtPrice;
     private Button buttonRequest;
 
     @Override
@@ -87,6 +88,9 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         buttonRequest = findViewById(R.id.btnRequestNow);
         txtOrigin.setText(ExtraOrigin);
         txtDestination.setText(ExtraDestination);
+
+        // txtPrice.setText(ExtraPrice);
+
         circleImageBack =findViewById(R.id.circleImageBack);
         circleImageBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +115,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         intent.putExtra("destination",ExtraDestination);
         intent.putExtra("destination_lat",DestinationLatLng.latitude);
         intent.putExtra("destination_lng",DestinationLatLng.longitude);
+        // intent.putExtra("price",ExtraPrice);
 
         startActivity(intent);
         finish();

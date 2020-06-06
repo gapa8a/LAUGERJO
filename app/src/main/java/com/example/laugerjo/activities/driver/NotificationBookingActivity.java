@@ -19,6 +19,8 @@ import com.example.laugerjo.R;
 import com.example.laugerjo.providers.ClientBookingProvider;
 import com.example.laugerjo.providers.GeofireProvider;
 import com.example.laugerjo.providers.authProviders;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -32,6 +34,9 @@ public class NotificationBookingActivity extends AppCompatActivity {
     private GeofireProvider geofireProvider;
     private authProviders Aunte;
     private String extraIdClient, extraOrigin, extraDestination, extraPrice, extraMin, extraDistance;
+
+    private boolean isConnect = false;
+    private FusedLocationProviderClient FusedLocation;
 
     private MediaPlayer mediaPlayer;
     private int mCounter = 10;
@@ -68,6 +73,9 @@ public class NotificationBookingActivity extends AppCompatActivity {
         txtCounter = findViewById(R.id.txtCounter);
         btnAccept = findViewById(R.id.btnAcceptBooking);
         btnCancel = findViewById(R.id.btnCancelBooking);
+
+        FusedLocation = LocationServices.getFusedLocationProviderClient(this);
+
 
         extraIdClient = getIntent().getStringExtra("idClient");
 
@@ -129,14 +137,20 @@ public class NotificationBookingActivity extends AppCompatActivity {
         }
     private void cancelBooking() {
         if (handler != null) handler.removeCallbacks(runnable);
+        //MapDriverActivity mda = new MapDriverActivity();
+
 
         clientBookingProvider.updateStatus(extraIdClient, "cancel");
 
+       // mda.disconnect();
+
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(2);
+
         Intent intent = new Intent(NotificationBookingActivity.this, MapDriverActivity.class);
         startActivity(intent);
         finish();
+
 
     }
 
