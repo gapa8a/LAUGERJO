@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.laugerjo.R;
 import com.example.laugerjo.includes.toolbar;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.model.SquareCap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -85,11 +88,13 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         txtDestination =findViewById(R.id.txtDestination);
         txtTiempoV =findViewById(R.id.txtTiempoV);
         txtDistancia =findViewById(R.id.txtDistancia);
+        txtPrice = findViewById(R.id.txtPriceRequest);
         buttonRequest = findViewById(R.id.btnRequestNow);
         txtOrigin.setText(ExtraOrigin);
         txtDestination.setText(ExtraDestination);
+        txtPrice.setText(ExtraPrice);
 
-        // txtPrice.setText(ExtraPrice);
+
 
         circleImageBack =findViewById(R.id.circleImageBack);
         circleImageBack.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +120,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         intent.putExtra("destination",ExtraDestination);
         intent.putExtra("destination_lat",DestinationLatLng.latitude);
         intent.putExtra("destination_lng",DestinationLatLng.longitude);
-        // intent.putExtra("price",ExtraPrice);
+        //¿intent.putExtra("price",ExtraPrice);
 
         startActivity(intent);
         finish();
@@ -126,6 +131,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 try {
+
                     JSONObject jsonObject = new JSONObject(response.body());
                     JSONArray jsonArray = jsonObject.getJSONArray("routes");
                     JSONObject route = jsonArray.getJSONObject(0);
@@ -146,8 +152,17 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
                     JSONObject duration =  leg.getJSONObject("duration");
                     String distanceText =distance.getString("text");
                     String durationText =duration.getString("text");
+
+
+                    NumberFormat nf = new DecimalFormat("##,###");
+                    String[] distances =distanceText.split(" km");
+
+                     String pricei = nf.format(Double.parseDouble(distances[0]) * 2500);
+
                     txtTiempoV.setText(durationText);
                     txtDistancia.setText(distanceText);
+                    //txtPrice.setText(""+Double.parseDouble(distances[0])*2500);
+                    txtPrice.setText(pricei);
                 }catch (Exception e){
                     Log.d("Error","Error encontrado " +e.getMessage());
                 }

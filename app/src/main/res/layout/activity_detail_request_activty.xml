@@ -190,7 +190,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                     <TextView
-                        android:id="@+id/txtPrice"
+                        android:id="@+id/txtPriceRequest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/whiteTextColor"
