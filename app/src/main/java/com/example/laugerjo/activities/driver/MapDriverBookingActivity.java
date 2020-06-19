@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -22,6 +23,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,10 +93,9 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private FusedLocationProviderClient FusedLocation;
 
 
+    private final static int LOCATION_REQUEST_CODE = 1;
 
-    private final static int  LOCATION_REQUEST_CODE = 1;
-
-    private final static int  SETTINGS_REQUEST_CODE = 2;
+    private final static int SETTINGS_REQUEST_CODE = 2;
 
     private Marker marker;
     private LatLng currentLatlng;
@@ -117,31 +118,31 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private Boolean isFirstTime = true;
     private Boolean isCloseToClient = false;
     private Button btnStartBooking, btnFinishBooking;
-
-    com.google.android.gms.location.LocationCallback LocationCallback =new LocationCallback(){
+    private ImageButton btnCall;
+    com.google.android.gms.location.LocationCallback LocationCallback = new LocationCallback() {
         @Override
-        public void onLocationResult(LocationResult locationResult){
-            for (Location location:locationResult.getLocations()){
-                if(getApplicationContext() != null){
+        public void onLocationResult(LocationResult locationResult) {
+            for (Location location : locationResult.getLocations()) {
+                if (getApplicationContext() != null) {
                     // Obtener la localización del usuario en tiempo real
-                    currentLatlng = new LatLng(location.getLatitude(),location.getLongitude());
-                    if(marker !=null){
+                    currentLatlng = new LatLng(location.getLatitude(), location.getLongitude());
+                    if (marker != null) {
                         marker.remove();
                     }
-                    currentLatlng = new LatLng(location.getLatitude(),location.getLongitude());
+                    currentLatlng = new LatLng(location.getLatitude(), location.getLongitude());
 
-                    marker= Mapa.addMarker(new MarkerOptions().position(
+                    marker = Mapa.addMarker(new MarkerOptions().position(
                             new LatLng(location.getLatitude(), location.getLongitude())
                     ).title("Tu posición").icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_condu)));
 
                     Mapa.moveCamera(CameraUpdateFactory.newCameraPosition(
-                            new CameraPosition.Builder().target(new LatLng(location.getLatitude(),location.getLongitude()))
+                            new CameraPosition.Builder().target(new LatLng(location.getLatitude(), location.getLongitude()))
                                     .zoom(16f)
                                     .build()
                     ));
                     updateLocation();
 
-                    if (isFirstTime){
+                    if (isFirstTime) {
                         isFirstTime = false;
                         getClientBooking();
                     }
@@ -162,7 +163,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         clientBookingProvider = new ClientBookingProvider();
         FusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
-        Mapafragmento= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        Mapafragmento = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Mapafragmento.getMapAsync(this);
 
         txtClientBooking = findViewById(R.id.txtClientBooking);
@@ -174,22 +175,23 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         txtOriginBooking = findViewById(R.id.txtOriginClientBooking);
         txtDestinationBooking = findViewById(R.id.txtDestinationClientBooking);
 
-        btnStartBooking=findViewById(R.id.btnStartBooking);
-        btnFinishBooking=findViewById(R.id.btnFinishBooking);
+        btnStartBooking = findViewById(R.id.btnStartBooking);
+        btnFinishBooking = findViewById(R.id.btnFinishBooking);
+        btnCall = findViewById(R.id.btnCallClient);
         imgClientBooking = findViewById(R.id.imgViewClientBooking);
 
         //btnStartBooking.setEnabled(false);
 
-        extraClientId =getIntent().getStringExtra("idClient");
+        extraClientId = getIntent().getStringExtra("idClient");
         googleApiProvider = new GoogleApiProvider(MapDriverBookingActivity.this);
 
         getClient();
         btnStartBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCloseToClient){
+                if (isCloseToClient) {
                     startBooking();
-                }else{
+                } else {
                     Toast.makeText(MapDriverBookingActivity.this, "Debes estar mas cerca a la posición de recogida", Toast.LENGTH_SHORT).show();
                 }
 
@@ -200,6 +202,27 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
             @Override
             public void onClick(View v) {
                 finishBooking();
+            }
+        });
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone = "3192768900";
+                String s = "tel:" + phone;
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse(s));
+                if (ActivityCompat.checkSelfPermission(MapDriverBookingActivity.this.getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+
+                }
+                startActivity(intent);
             }
         });
     }
@@ -245,7 +268,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             if(dataSnapshot.exists()){
                 String destination = dataSnapshot.child("destination").getValue().toString();
-                //String price = dataSnapshot.child("price").getValue().toString();
+                String price = dataSnapshot.child("price").getValue().toString();
                 String origin= dataSnapshot.child("origin").getValue().toString();
                 double destinationLat = Double.parseDouble(dataSnapshot.child("destinationLat").getValue().toString());
                 double destinationLng = Double.parseDouble(dataSnapshot.child("destinationLng").getValue().toString());
@@ -258,7 +281,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
                 txtOriginBooking.setText("Recoger en: "+origin);
                 txtDestinationBooking.setText("Destino: "+destination);
-                //txtPriceBooking.setText(price);
+                txtPriceBooking.setText("$"+price);
 
                 Mapa.addMarker(new MarkerOptions().position(originLatLng).title("Recoger Aquí").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_pin_green)));
                 drawRoute(originLatLng);
@@ -327,7 +350,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                     String fullname ="Cliente: "+name+" "+lastname;
                     txtClientBooking.setText(fullname);
                     txtEmailBooking.setText("Email: "+email);
-                    //txtPriceBooking.setText("$"price);
+                   // txtPriceBooking.setText("$"+price);
                 }
             }
 

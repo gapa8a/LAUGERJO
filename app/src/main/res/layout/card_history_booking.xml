@@ -110,7 +110,7 @@
             android:textSize="16sp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"/>
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtPrice"
@@ -126,7 +126,7 @@
             android:maxLines="1"
             android:textSize="16sp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"/>-->
 
 
 

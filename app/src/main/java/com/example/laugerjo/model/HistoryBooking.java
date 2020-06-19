@@ -9,7 +9,7 @@ public class HistoryBooking {
     String origin;
     String time;
     String km;
-    //String price;
+    String price;
     String status;
     double originLat;
     double originLng;
@@ -23,7 +23,7 @@ public class HistoryBooking {
 
     }
 
-    public HistoryBooking( String idHistoryBooking ,String idClient, String idDriver, String destination, String origin, String time, String km,/*String price,*/ String status, double originLat, double originLng, double destinationLat, double destinationLng) {
+    public HistoryBooking( String idHistoryBooking ,String idClient, String idDriver, String destination, String origin, String time, String km,String price, String status, double originLat, double originLng, double destinationLat, double destinationLng) {
         this.idHistoryBooking = idHistoryBooking;
         this.idClient = idClient;
         this.idDriver = idDriver;
@@ -31,7 +31,7 @@ public class HistoryBooking {
         this.origin = origin;
         this.time = time;
         this.km = km;
-        //this.price = price;
+        this.price = price;
         this.status = status;
         this.originLat = originLat;
         this.originLng = originLng;
@@ -119,13 +119,13 @@ public class HistoryBooking {
         this.km = km;
     }
 
-      /*  public String getPrice() {
+        public String getPrice() {
         return price;
     }
 
     public void setPrice(String price) {
         this.price = price;
-    }*/
+    }
 
 
     public String getStatus() {

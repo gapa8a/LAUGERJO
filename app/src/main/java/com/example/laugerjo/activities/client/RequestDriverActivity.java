@@ -57,7 +57,7 @@ public class RequestDriverActivity extends AppCompatActivity {
 
     private String extraOrigin;
     private String extraDestination;
-
+    private String extraPrice;
     private  double extraOriginLat;
     private  double extraOriginLng;
 
@@ -93,6 +93,8 @@ public class RequestDriverActivity extends AppCompatActivity {
 
         extraOrigin = getIntent().getStringExtra("origin");
         extraDestination = getIntent().getStringExtra("destination");
+        extraPrice = getIntent().getStringExtra("price");
+
         extraOriginLat = getIntent().getDoubleExtra("origin_lat",0);
         extraOriginLng = getIntent().getDoubleExtra("origin_lng",0);
 
@@ -269,12 +271,12 @@ public class RequestDriverActivity extends AppCompatActivity {
                     map.put("title","SOLICITUD DE SERVICIO A " +time+" DE TU POSICIÓN");
                     map.put("body","Un cliente esta solicitando un servicio a una distancia de " +km+ "\n"+
                             "Recoger en: " +extraOrigin+ "\n" +
-                            "Destino: "+extraDestination+
-                            "Precio: "/*+price*/ );
+                            "Destino: "+extraDestination+"\n"+
+                            "Precio: $"+extraPrice);
                     map.put("idClient",authProviders.getId());
                     map.put("origin",extraOrigin);
                     map.put("destination",extraDestination);
-                    //map.put("price",extraPrice);
+                   map.put("price",extraPrice);
                     map.put("min",time);
                     map.put("distance",km);
                     FCMBody fcmBody = new FCMBody(token,"high","4500s",map);
@@ -289,7 +291,7 @@ public class RequestDriverActivity extends AppCompatActivity {
                                             extraOrigin,
                                             time,
                                             km,
-                                            /*price,*/
+                                            extraPrice,
                                             "create",
                                             extraOriginLat,
                                             extraOriginLng,

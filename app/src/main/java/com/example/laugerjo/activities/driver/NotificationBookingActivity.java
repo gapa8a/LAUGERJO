@@ -92,7 +92,7 @@ public class NotificationBookingActivity extends AppCompatActivity {
         txtOrigin.setText(extraOrigin);
         txtDistance.setText(extraDistance);
         txtMin.setText(extraMin);
-        //txtPrice.setText(extraPrice);
+        txtPrice.setText("$"+extraPrice);
 
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |

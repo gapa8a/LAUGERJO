@@ -49,10 +49,10 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
                     String destination = data.get("destination");
                     String min = data.get("min");
                     String distance = data.get("distance");
-                    //String price = data.get("price");
+                    String price = data.get("price");
 
                     showNotificationApiOreoActions(title,body,idClient);
-                    showNotificationActivity(idClient,origin,destination,min,distance/*,price*/);
+                    showNotificationActivity(idClient,origin,destination,min,distance,price);
                 }else if(title.contains("VIAJE CANCELADO")){
                     NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     manager.cancel(2);
@@ -67,9 +67,9 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
                     String destination = data.get("destination");
                     String min = data.get("min");
                     String distance = data.get("distance");
-                    //String price = data.get("price");
+                    String price = data.get("price");
                     showNotificationActions(title,body,idClient);
-                    showNotificationActivity(idClient,origin,destination,min,distance/*,price*/);
+                    showNotificationActivity(idClient,origin,destination,min,distance,price);
                 }else if(title.contains("VIAJE CANCELADO")){
                     NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     manager.cancel(2);
@@ -83,7 +83,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         }
     }
 
-    private void showNotificationActivity(String idClient, String origin, String destination, String min, String distance/*,String price*/) {
+    private void showNotificationActivity(String idClient, String origin, String destination, String min, String distance,String price) {
         PowerManager pm = (PowerManager)getBaseContext().getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = pm.isScreenOn();
         if(!isScreenOn){
@@ -96,7 +96,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         intent.putExtra("idClient",idClient);
         intent.putExtra("origin",origin);
         intent.putExtra("destination",destination);
-        //intent.putExtra("price",price);
+        intent.putExtra("price",price);
         intent.putExtra("min",min);
         intent.putExtra("distance",distance);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);

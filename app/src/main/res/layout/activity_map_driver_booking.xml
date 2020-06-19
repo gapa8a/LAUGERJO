@@ -35,14 +35,16 @@
         style="@style/loginButton"
         android:layout_margin="30dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-
-
-    </LinearLayout>
+    <ImageButton
+        style="@style/loginButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|right"
+        android:layout_margin="10dp"
+        android:layout_marginTop="600dp"
+        android:id="@+id/btnCallClient"
+        android:src="@drawable/ic_call" />
 
     <com.github.florent37.shapeofview.shapes.BubbleView
         android:layout_width="match_parent"
@@ -61,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgViewClientBooking"

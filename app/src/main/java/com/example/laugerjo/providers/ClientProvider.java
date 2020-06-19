@@ -21,6 +21,7 @@ public class ClientProvider {
         map.put("name",client.getName());
         map.put("lastname",client.getLastname());
         map.put("email",client.getEmail());
+
         return DB.child(client.getId()).setValue(client);
 
     }

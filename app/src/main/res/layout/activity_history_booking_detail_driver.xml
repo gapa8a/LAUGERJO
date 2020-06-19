@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="1234567890"
+            android:text="@string/nmberC"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"
             android:textSize="16sp"/>

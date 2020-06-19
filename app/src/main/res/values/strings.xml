@@ -70,4 +70,8 @@
     <string name="txtApellido">Apellido: </string>
     <string name="txtCalificacion">Calificación: </string>
     <string name="btnHistory">Historial de viajes</string>
+    <string name="nmberD">3192485722</string>
+    <string name="nmberC">3192768900</string>
+    <string name="txtBrand">Mazda 2</string>
+    <string name="txtPlate">CRH029</string>
 </resources>

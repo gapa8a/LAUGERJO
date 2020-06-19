@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -79,6 +80,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         ExtraDestinationLng=getIntent().getDoubleExtra("destination_lng",0);
         ExtraOrigin = getIntent().getStringExtra("origin");
         ExtraDestination = getIntent().getStringExtra("destination");
+        //ExtraPrice = getIntent().getStringExtra("price");
         OriginLatLng = new LatLng(ExtraOriginLat,ExtraOriginLng);
         DestinationLatLng = new LatLng(ExtraDestinationLat,ExtraDestinationLng);
 
@@ -92,7 +94,6 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         buttonRequest = findViewById(R.id.btnRequestNow);
         txtOrigin.setText(ExtraOrigin);
         txtDestination.setText(ExtraDestination);
-        txtPrice.setText(ExtraPrice);
 
 
 
@@ -120,7 +121,7 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
         intent.putExtra("destination",ExtraDestination);
         intent.putExtra("destination_lat",DestinationLatLng.latitude);
         intent.putExtra("destination_lng",DestinationLatLng.longitude);
-        //¿intent.putExtra("price",ExtraPrice);
+        intent.putExtra("price",txtPrice.getText());
 
         startActivity(intent);
         finish();
@@ -161,7 +162,6 @@ public class DetailRequestActivty extends AppCompatActivity implements OnMapRead
 
                     txtTiempoV.setText(durationText);
                     txtDistancia.setText(distanceText);
-                    //txtPrice.setText(""+Double.parseDouble(distances[0])*2500);
                     txtPrice.setText(pricei);
                 }catch (Exception e){
                     Log.d("Error","Error encontrado " +e.getMessage());

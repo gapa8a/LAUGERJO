@@ -50,6 +50,7 @@ public class Forgot extends AppCompatActivity {
     }
     private void resetPassword(){
     Aunte.setLanguageCode("es");
+
     Aunte.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
         @Override
         public void onComplete(@NonNull Task<Void> task) {

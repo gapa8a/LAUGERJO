@@ -2,11 +2,17 @@ package com.example.laugerjo.activities.client;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,6 +106,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
     private ValueEventListener listener;
     private String midDriver;
     private ValueEventListener listenerStatus;
+    private ImageButton btnCall;
 
 
     @Override
@@ -130,9 +137,32 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
         txtStatusBooking = findViewById(R.id.txtStatusBooking);
         txtOriginBooking = findViewById(R.id.txtOriginDriverBooking);
         txtDestinationBooking = findViewById(R.id.txtDestinationDriverBooking);
+        btnCall = findViewById(R.id.btnCallDriver );
         imgDriverBooking = findViewById(R.id.imgViewClientBooking);
         getStatus();
     getClientBooking();
+
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone = "3192485722";
+                String s = "tel:" + phone;
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse(s));
+                if (ActivityCompat.checkSelfPermission(MapClientBookingActivity.this.getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+
+                }
+                startActivity(intent);
+            }
+        });
     }
 
     private void getStatus() {
@@ -191,7 +221,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     String destination = dataSnapshot.child("destination").getValue().toString();
-                    //String price = dataSnapshot.child("price").getValue().toString();
+                    String price = dataSnapshot.child("price").getValue().toString();
                     String origin= dataSnapshot.child("origin").getValue().toString();
                     String idDriver = dataSnapshot.child("idDriver").getValue().toString();
                     midDriver = idDriver;
@@ -203,7 +233,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
                     destinationLatLng = new LatLng(destinationLat,destinationLng);
                     txtOriginBooking.setText("Recoger en: "+origin);
                     txtDestinationBooking.setText("Destino: "+destination);
-                    //txtPriceBooking.setText(price);
+                    txtPriceBooking.setText("$"+price);
                     Mapa.addMarker(new MarkerOptions().position(originLatLng).title("Recoger Aquí").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_pin_red)));
                     getDriver(idDriver);
                     getDriverLocation(idDriver);
@@ -232,7 +262,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
                     String fullname ="Conductor: "+name+" "+lastname;
                     txtClientBooking.setText(fullname);
                     txtEmailBooking.setText("Email: " +email);
-                    //txtPriceBooking.setText("$"price);
+                    //txtPriceBooking.setText("$"+price);
 
                 }
             }

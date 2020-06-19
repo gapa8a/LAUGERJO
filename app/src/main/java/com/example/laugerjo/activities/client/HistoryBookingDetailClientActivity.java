@@ -55,7 +55,7 @@ public class HistoryBookingDetailClientActivity extends AppCompatActivity {
                     HistoryBooking historyBooking = dataSnapshot.getValue(HistoryBooking.class);
                     txtOrigin.setText(historyBooking.getOrigin());
                     txtDestination.setText(historyBooking.getDestination());
-                    //txtPrice.setText("$"+historyBooking.getPrice);
+                    txtPrice.setText("$"+historyBooking.getPrice());
                     //txtContact.setText(historyBooking.getContact());
                     //txtCar.setText(historyBooking.getCar());
                     toolbar.show(HistoryBookingDetailClientActivity.this,"Registro de Usuario",true);

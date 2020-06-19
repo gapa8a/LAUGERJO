@@ -80,7 +80,7 @@ public class CalificationClientActivity extends AppCompatActivity {
                     ClientBooking clientBooking = dataSnapshot.getValue(ClientBooking.class);
                     txtOrigin.setText(clientBooking.getOrigin());
                     txtDestination.setText(clientBooking.getDestination());
-                   // txtPriceCalification.setText(clientBooking.getPrice());
+                    txtPriceCalification.setText("$"+clientBooking.getPrice());
                     historyBooking = new HistoryBooking(
                     clientBooking.getIdHistoryBooking(),
                             clientBooking.getIdClient(),
@@ -89,7 +89,7 @@ public class CalificationClientActivity extends AppCompatActivity {
                             clientBooking.getOrigin(),
                             clientBooking.getTime(),
                             clientBooking.getKm(),
-                            //clientBooking.getPrice(),
+                            clientBooking.getPrice(),
                             clientBooking.getStatus(),
                             clientBooking.getOriginLat(),
                             clientBooking.getOriginLng(),

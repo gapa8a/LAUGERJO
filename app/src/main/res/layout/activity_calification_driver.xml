@@ -107,7 +107,7 @@
             android:textColor="@color/black"
             android:layout_marginTop="0dp"/>
         <TextView
-            android:id="@+id/txtPriceCalification"
+            android:id="@+id/txtPriceCalificationDriver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="$10.000"

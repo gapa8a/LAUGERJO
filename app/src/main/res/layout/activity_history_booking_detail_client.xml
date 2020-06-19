@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:text="1234567890"
+            android:text="@string/nmberD"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:text=" marca y modelo"
+            android:text="@string/txtBrand"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:text="Abc123"
+            android:text="@string/txtPlate"
             android:textAlignment="center"
             android:textSize="16sp" />
 

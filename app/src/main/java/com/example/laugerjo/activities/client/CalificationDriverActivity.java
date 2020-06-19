@@ -50,7 +50,7 @@ public class CalificationDriverActivity extends AppCompatActivity {
         txtOrigin = findViewById(R.id.txtOriginCalification);
         txtDestination = findViewById(R.id.txtDestinationCalification);
         btnCalification = findViewById(R.id.btnCalification);
-        txtPriceCalification = findViewById(R.id.txtPriceCalification);
+        txtPriceCalification = findViewById(R.id.txtPriceCalificationDriver);
         rb =findViewById(R.id.rbCalification);
         clientBookingProvider = new ClientBookingProvider();
         historyBookingProvider = new HistoryBookingProvider();
@@ -74,6 +74,8 @@ public class CalificationDriverActivity extends AppCompatActivity {
     }
 
 
+
+
     private  void getClientBooking(){
         clientBookingProvider.getClientBooking(authProviders.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -82,7 +84,7 @@ public class CalificationDriverActivity extends AppCompatActivity {
                     ClientBooking clientBooking = dataSnapshot.getValue(ClientBooking.class);
                     txtOrigin.setText(clientBooking.getOrigin());
                     txtDestination.setText(clientBooking.getDestination());
-                    // txtPriceCalification.setText(clientBooking.getPrice());
+                    txtPriceCalification.setText("$"+clientBooking.getPrice());
                     historyBooking = new HistoryBooking(
                             clientBooking.getIdHistoryBooking(),
                             clientBooking.getIdClient(),
@@ -91,7 +93,7 @@ public class CalificationDriverActivity extends AppCompatActivity {
                             clientBooking.getOrigin(),
                             clientBooking.getTime(),
                             clientBooking.getKm(),
-                            //clientBooking.getPrice(),
+                            clientBooking.getPrice(),
                             clientBooking.getStatus(),
                             clientBooking.getOriginLat(),
                             clientBooking.getOriginLng(),
